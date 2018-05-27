@@ -12,10 +12,12 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	private static final long serialVersionUID = 1L;
 	private static final String TITRE_FENETRE = "Laboratoire 1 : LOG121 - Simulation";
 	private static final Dimension DIMENSION = new Dimension(700, 700);
-
+	private PanneauPrincipal panneauPrincipal;
+	private MenuFenetre menuFenetre;
 	public FenetrePrincipale() {
-		PanneauPrincipal panneauPrincipal = new PanneauPrincipal();
-		MenuFenetre menuFenetre = new MenuFenetre();
+		this.panneauPrincipal = new PanneauPrincipal();
+		this.menuFenetre = new MenuFenetre();
+		
 		add(panneauPrincipal);
 		add(menuFenetre, BorderLayout.NORTH);
 		// Faire en sorte que le X de la fenêtre ferme la fenêtre
@@ -33,8 +35,21 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("TEST")) {
+			
+
+			//Update the main panel if we upload a new file
+			updateMainPanel(menuFenetre, panneauPrincipal);
 			repaint();
-			System.out.println(evt.getNewValue());
+			//System.out.println("");
 		}
+	}
+	
+	private void updateMainPanel(MenuFenetre menuFenetre, PanneauPrincipal panneauPrincipal) {
+		
+		if(menuFenetre.getDomParser() != null) {
+			
+			panneauPrincipal.setDomParser(menuFenetre.getDomParser());
+		}
+		
 	}
 }

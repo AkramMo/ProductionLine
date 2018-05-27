@@ -1,24 +1,78 @@
 package industrie;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Entrepot extends Observable implements ObjetGraphique{
+import javax.swing.JLabel;
+
+public class Entrepot extends Observable{
 
 	
-	private ComponentIndustry component;
-	private int capacity;
+	public static final String FIELD_CAPACITY = "capacite";
 	
-	public Entrepot(ComponentIndustry component, int capacity) {
+	private String typeUsine;
+	private ArrayList<ComponentIndustry> entryList;
+	private int capacity;
+	private int idEntrepot = 0;
+	private ArrayList<JLabel> labelIconList;
+	private Point position;
+	
+	
+	public Entrepot(String typeUsine, ArrayList<ComponentIndustry> entryList, int capacity,
+			ArrayList<JLabel> labelIconList) {
 		
-		this.component = component;
+		this.typeUsine = typeUsine;
+		this.entryList = entryList;
+		this.capacity = capacity;
+		this.labelIconList = labelIconList;
+	}
+	
+	public int getIdEntrepot() {
+		return idEntrepot;
+	}
+
+	public void setIdEntrepot(int idEntrepot) {
+		this.idEntrepot = idEntrepot;
+	}
+
+	public String getTypeUsine() {
+		return typeUsine;
+	}
+
+
+	public ArrayList<ComponentIndustry> getEntryList() {
+		return entryList;
+	}
+
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+
+	public ArrayList<JLabel> getLabelIconList() {
+		return labelIconList;
+	}
+
+
+	public Point getPosition() {
+		return position;
+	}
+
+
+	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-	
-	@Override
-	public void paintObject() {
-		// TODO Auto-generated method stub
-		
+
+
+	public void setPosition(Point position) {
+		this.position = position;
 	}
+
+
+	
+	
 
 }
