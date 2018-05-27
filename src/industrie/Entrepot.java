@@ -12,7 +12,7 @@ public class Entrepot extends Observable{
 	
 	public static final String FIELD_CAPACITY = "capacite";
 	
-	private String typeUsine;
+	private static final String TYPE_USINE = "entrepot";
 	private ArrayList<ComponentIndustry> entryList;
 	private int capacity;
 	private int idEntrepot = 0;
@@ -20,10 +20,9 @@ public class Entrepot extends Observable{
 	private Point position;
 	
 	
-	public Entrepot(String typeUsine, ArrayList<ComponentIndustry> entryList, int capacity,
+	public Entrepot( ArrayList<ComponentIndustry> entryList, int capacity,
 			ArrayList<JLabel> labelIconList) {
 		
-		this.typeUsine = typeUsine;
 		this.entryList = entryList;
 		this.capacity = capacity;
 		this.labelIconList = labelIconList;
@@ -35,10 +34,6 @@ public class Entrepot extends Observable{
 
 	public void setIdEntrepot(int idEntrepot) {
 		this.idEntrepot = idEntrepot;
-	}
-
-	public String getTypeUsine() {
-		return typeUsine;
 	}
 
 

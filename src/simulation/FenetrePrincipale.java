@@ -49,6 +49,7 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 		if(menuFenetre.getDomParser() != null) {
 			
 			panneauPrincipal.setDomParser(menuFenetre.getDomParser());
+			panneauPrincipal.setUsineList();
 		}
 		
 	}

@@ -83,7 +83,7 @@ public class UsineBuilder {
 						capacity = Integer.parseInt(( (Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
 								item(0)).getAttribute(Entrepot.FIELD_CAPACITY));
 
-						this.entrepot = new Entrepot(typeUsine, entryList, capacity, labelIconList);
+						this.entrepot = new Entrepot( entryList, capacity, labelIconList);
 					}
 
 				}
@@ -100,17 +100,18 @@ public class UsineBuilder {
 		Node node = elementUsine.getElementsByTagName(Usine.FIELD_ICONES).item(0);
 		NodeList iconeList = ((Element) node).getElementsByTagName(Usine.FIELD_ICONE);
 		Element iconeElement;
-		JLabel iconeLabel;
 		String iconePath;
+		
 		for(int i = 0; i < iconeList.getLength(); i++) {
+			
 			iconeElement = (Element) iconeList.item(i);
 			iconePath =  iconeElement.getAttribute(Usine.FIELD_PATH);
 			iconePath = iconePath.substring(3);
+			
 			try {
 				BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(iconePath));
 
-				iconeLabel = new JLabel(new ImageIcon(classPathImage));
-				labelIconList.add(iconeLabel);
+				labelIconList.add(new JLabel(new ImageIcon(classPathImage)));
 
 			} catch (IOException e) {
 

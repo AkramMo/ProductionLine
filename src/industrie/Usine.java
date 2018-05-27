@@ -52,9 +52,9 @@ public class Usine implements Observer {
 		
 	}
 	
-	public JLabel getLabelIcon(int iconPosition) {
+	public ArrayList<JLabel> getLabelIcon() {
 		
-		return labelIconList.get(iconPosition);
+		return this.labelIconList;
 		
 	}
 
