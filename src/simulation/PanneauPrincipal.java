@@ -37,28 +37,32 @@ public class PanneauPrincipal extends JPanel {
 		this.domParser = null;
 		this.listUsine = new ArrayList<Usine>();
 		this.listUsineSimulation = new ArrayList<Usine>();
+
 	}
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		updateListUsineSimulation();
+
 		// On ajoute à la position le delta x et y de la vitesse
+		createListUsineSimulation();
 		drawUsine();
 		//position.translate(vitesse.x, vitesse.y);
 		//g.fillRect(position.x, position.y, taille, taille);
 
-		//add(new Metal().getLabelIcon());
-	
+
 	}
 
-	private void updateListUsineSimulation() {
-		if(this.domParser != null) {
+	private void createListUsineSimulation() {
+
+		String typeUsine;
+		int idUsine;
+		Usine usineTMP;
+		Point position;
+
+		if(this.domParser != null && this.listUsineSimulation.isEmpty()) {
+
 			NodeList usineAttributeList = this.domParser.getUsineAttributeList();
-			String typeUsine;
-			int idUsine;
-			Usine usineTMP;
-			Point position;
 
 			for(int i = 0; i < usineAttributeList.getLength(); i++) {
 
@@ -68,8 +72,8 @@ public class PanneauPrincipal extends JPanel {
 				position = new Point(Integer.parseInt(elementUsineAttribute.getAttribute(Usine.FIELD_X)),
 						Integer.parseInt(elementUsineAttribute.getAttribute(Usine.FIELD_Y)));
 
-				if(Entrepot.FIELD_CAPACITY.equals(typeUsine)) {
-
+				if(Entrepot.TYPE_USINE.equals(typeUsine) && this.entrepot != null) {
+					
 					this.entrepot.setPosition(position);
 					this.entrepot.setIdEntrepot(idUsine);
 				}else {
@@ -78,7 +82,9 @@ public class PanneauPrincipal extends JPanel {
 
 						if(this.listUsine.get(j).getTypeUsine().equals(typeUsine)) {
 
-							usineTMP = this.listUsine.get(j);
+							usineTMP = new Usine(this.listUsine.get(j).getTypeUsine(),
+									this.listUsine.get(j).getEntry(),this.listUsine.get(j).getTimeProduction(), 
+									this.listUsine.get(j).getLabelPathList());
 							usineTMP.setPosition(position);
 							usineTMP.setIdUsine(idUsine);
 							this.listUsineSimulation.add(usineTMP);
@@ -87,36 +93,58 @@ public class PanneauPrincipal extends JPanel {
 				}
 			}
 		}
+
 	}
 
 	private void drawUsine() {
 
 		JLabel labelIcon;
 		Point positionLabel;
+
+		//this.listUsine.get(1).getLabelIcon();
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
 			positionLabel = this.listUsineSimulation.get(i).getPosition();
 			labelIcon = this.listUsineSimulation.get(i).getLabelIcon().get(0);
+			labelIcon.setBounds(positionLabel.x,positionLabel.y, taille, taille);
+
 			this.add(labelIcon);
-			labelIcon.setLocation(positionLabel);
+
 		}
 
-
+		if(this.entrepot != null) {
+			positionLabel = this.entrepot.getPosition();
+			labelIcon = this.entrepot.getLabelIconList().get(0);
+			labelIcon.setBounds(positionLabel.x, positionLabel.y, taille, taille);
+			
+			this.add(labelIcon);
+		}
 	}
 	public void setDomParser(DomParserProductionLine domParser) {
 
-		this.domParser = domParser;
+		if(this.domParser != domParser) {
+			this.domParser = domParser;
+			createListUsineSimulation();
+			setUsineList();
+		}
 	}
 
-	public void setUsineList() {
+	private void setUsineList() {
 
 		UsineBuilder usineBuilder;
-		if(this.domParser != null) {
+		
+		usineBuilder = new UsineBuilder(domParser);
+		this.listUsine = usineBuilder.getListUsine();
+		this.entrepot = usineBuilder.getEntrepot();
 
-			usineBuilder = new UsineBuilder(domParser);
-			this.listUsine = usineBuilder.getListUsine();
-			this.entrepot = usineBuilder.getEntrepot();
-		}
+	}
+	public ArrayList<Usine> getListUsineSimulation() {
+
+		return (ArrayList<Usine>) listUsineSimulation.clone();
+	}
+
+	public DomParserProductionLine getDomParser() {
+		return domParser;
 	}
 
 

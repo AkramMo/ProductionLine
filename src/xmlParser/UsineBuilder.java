@@ -3,6 +3,7 @@ package xmlParser;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -35,13 +36,7 @@ public class UsineBuilder {
 
 
 
-	public ArrayList<Usine> getListUsine() {
-		return listUsine;
-	}
 
-	public Entrepot getEntrepot() {
-		return entrepot;
-	}
 	
 	public void updateUsineList() {
 
@@ -50,7 +45,9 @@ public class UsineBuilder {
 		int capacity = 0;
 		ComponentIndustry componentOut = null;
 		ArrayList<ComponentIndustry> entryList = new ArrayList<ComponentIndustry>();
-		ArrayList<JLabel> labelIconList = new ArrayList<JLabel>();
+		LinkedList<String> labelPathList= new LinkedList<String>();
+		Usine usineTMP;
+		Entrepot entrepot;
 
 
 		if(this.domParser != null) {
@@ -68,33 +65,38 @@ public class UsineBuilder {
 
 					typeUsine = elementUsine.getAttribute(Usine.FIELD_TYPE);
 					if(!typeUsine.equals("entrepot")) {
+						
 						timeProduction = Integer.parseInt(elementUsine.getElementsByTagName(Usine.FIELD_INTERVAL).
 								item(0).getTextContent());
 
 						setEntryList(elementUsine, entryList);
 						setComponentOut(elementUsine, componentOut);
-						setIconeList(elementUsine, labelIconList);
-
-						this.listUsine.add(new Usine(typeUsine, entryList, timeProduction, labelIconList));
+						setPathList(elementUsine, labelPathList);
+						
+						usineTMP = new Usine(typeUsine, entryList, timeProduction, labelPathList);
+						usineTMP.setComponentOut(componentOut);
+						this.listUsine.add(usineTMP);
+						
 					}else {
 
 						setEntryList(elementUsine,entryList);
-						setIconeList(elementUsine, labelIconList);
+						setPathList(elementUsine, labelPathList);
 						capacity = Integer.parseInt(( (Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
 								item(0)).getAttribute(Entrepot.FIELD_CAPACITY));
-
-						this.entrepot = new Entrepot( entryList, capacity, labelIconList);
+						entrepot = new Entrepot( entryList, capacity, labelPathList);
+						
+						this.entrepot = entrepot;
 					}
 
 				}
-
+				labelPathList.clear();
 			}
 
 		}
 	}
 
 
-	private void setIconeList(Element elementUsine, ArrayList<JLabel> labelIconList) {
+	private void setPathList(Element elementUsine, LinkedList<String> pathIconList) {
 
 
 		Node node = elementUsine.getElementsByTagName(Usine.FIELD_ICONES).item(0);
@@ -107,16 +109,8 @@ public class UsineBuilder {
 			iconeElement = (Element) iconeList.item(i);
 			iconePath =  iconeElement.getAttribute(Usine.FIELD_PATH);
 			iconePath = iconePath.substring(3);
-			
-			try {
-				BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(iconePath));
+			pathIconList.add(iconePath);
 
-				labelIconList.add(new JLabel(new ImageIcon(classPathImage)));
-
-			} catch (IOException e) {
-
-				System.err.println("Icone introuvable !");
-			}
 
 		}
 	}
@@ -181,7 +175,6 @@ public class UsineBuilder {
 
 			}
 		}
-
 	}
 
 
@@ -203,6 +196,15 @@ public class UsineBuilder {
 		default:
 			break;
 		}
+		
+	}
+	
+	public ArrayList<Usine> getListUsine() {
+		
+		return (ArrayList<Usine>) listUsine.clone();
+	}
 
+	public Entrepot getEntrepot() {
+		return entrepot;
 	}
 }

@@ -40,16 +40,15 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 			//Update the main panel if we upload a new file
 			updateMainPanel(menuFenetre, panneauPrincipal);
 			repaint();
-			//System.out.println("");
+			//System.out.println("s");
 		}
 	}
 	
 	private void updateMainPanel(MenuFenetre menuFenetre, PanneauPrincipal panneauPrincipal) {
 		
-		if(menuFenetre.getDomParser() != null) {
+		if(menuFenetre.getDomParser() != null ) {
 			
 			panneauPrincipal.setDomParser(menuFenetre.getDomParser());
-			panneauPrincipal.setUsineList();
 		}
 		
 	}
