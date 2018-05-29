@@ -11,6 +11,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import configuration.DomParserProductionLine;
+import configuration.UsineBuilder;
 import industrie.Aile;
 import industrie.Avion;
 import industrie.ComponentIndustry;
@@ -18,8 +20,6 @@ import industrie.Entrepot;
 import industrie.Metal;
 import industrie.Moteur;
 import industrie.Usine;
-import xmlParser.DomParserProductionLine;
-import xmlParser.UsineBuilder;
 
 public class PanneauPrincipal extends JPanel {
 

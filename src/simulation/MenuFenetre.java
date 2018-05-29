@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-import xmlParser.DomParserProductionLine;
+import configuration.DomParserProductionLine;
 
 public class MenuFenetre extends JMenuBar {
 
