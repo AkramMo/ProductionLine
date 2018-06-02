@@ -21,14 +21,14 @@ import industrie.Metal;
 import industrie.Moteur;
 import industrie.Usine;
 
-public class UsineBuilder {
+public class IndustryBuilder {
 
 	private ArrayList<Usine> listUsine = new ArrayList<Usine>();
 	private Entrepot entrepot;
-	private DomParserProductionLine domParser;
+	private XMLParserProductionLine domParser;
 
 
-	public UsineBuilder(DomParserProductionLine domParser) {
+	public IndustryBuilder(XMLParserProductionLine domParser) {
 
 		this.domParser = domParser;
 		updateUsineList();
@@ -57,7 +57,7 @@ public class UsineBuilder {
 			for(int i = 0; i < usineList.getLength(); i++) {
 
 				Node nNode = usineList.item(i);
-				System.out.println("Element courant " + nNode.getNodeName());
+				//System.out.println("Element courant " + nNode.getNodeName());
 
 				if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 

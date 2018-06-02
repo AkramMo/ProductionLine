@@ -10,10 +10,9 @@ public class Environnement extends SwingWorker<Object, String> {
 	protected Object doInBackground() throws Exception {
 		while(actif) {
 			Thread.sleep(DELAI);
-			/**
-			 * C'est ici que vous aurez à faire la gestion de la notion de tour.
-			 */
-			firePropertyChange("TEST", null, "Ceci est un test");
+			
+			
+			firePropertyChange("Un tour", null, "Ceci est un tour");
 		}
 		return null;
 	}

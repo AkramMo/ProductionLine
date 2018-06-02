@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class DomParserProductionLine {
+public class XMLParserProductionLine {
 
 	
 	private NodeList usineList;
@@ -21,7 +21,7 @@ public class DomParserProductionLine {
 	private NodeList usineAttributeList;
 	private Document doc;
 
-	public DomParserProductionLine(File xmlFiles) {
+	public XMLParserProductionLine(File xmlFiles) {
 
 		buildAndGetDoc(xmlFiles);
 		setList();

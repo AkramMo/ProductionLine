@@ -34,7 +34,7 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals("TEST")) {
+		if (evt.getPropertyName().equals("Un tour")) {
 			
 
 			//Update the main panel if we upload a new file
@@ -48,7 +48,7 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 		
 		if(menuFenetre.getDomParser() != null ) {
 			
-			panneauPrincipal.setDomParser(menuFenetre.getDomParser());
+			panneauPrincipal.updateMainPanel(menuFenetre.getDomParser());
 		}
 		
 	}
