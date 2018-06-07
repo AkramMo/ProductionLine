@@ -3,6 +3,7 @@ package simulation;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import configuration.XMLParserProductionLine;
+import selling.Sales;
 
 public class PanneauPrincipal extends JPanel {
 
@@ -10,6 +11,7 @@ public class PanneauPrincipal extends JPanel {
 
 	private XMLParserProductionLine XMLParser;
 	private SimulationDrawing simuDrawing;
+	private Sales SalesStrategy;
 
 	public PanneauPrincipal() {
 
@@ -20,17 +22,23 @@ public class PanneauPrincipal extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		drawSimulation();
-		//g.drawLine(100, 100, 250, 250);
+		drawSimulation(g);
+		
 		//position.translate(vitesse.x, vitesse.y);
 
 	}
 
 
-	private void drawSimulation() {
+	private void drawSimulation(Graphics g) {
 
 		if(this.simuDrawing != null) {
 			this.simuDrawing.drawUsine(this);
+			this.simuDrawing.drawPath(g);
+
+			if(salesNotEmpty()){
+				
+			this.simuDrawing.updateUsine();
+			}
 		}
 
 	}
@@ -45,5 +53,17 @@ public class PanneauPrincipal extends JPanel {
 		}
 	}
 
+	public void setSalesStrategy(Sales salesStrategy) {
+		
+		this.SalesStrategy = salesStrategy;
+		System.out.println("Fonctionne");
+	}
 
+	
+	public boolean salesNotEmpty() {
+		
+		return this.SalesStrategy.isNotEmpty();
+	}
+	
+	
 }

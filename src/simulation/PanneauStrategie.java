@@ -11,21 +11,36 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
+import selling.ProgrammedSales;
+import selling.RandomSales;
+import selling.Sales;
+
 public class PanneauStrategie extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private Sales salesStrategy;
 
-	public PanneauStrategie() {
+	public PanneauStrategie(Sales salesStrategy) {
 
 		ButtonGroup groupeBoutons = new ButtonGroup();
 		JRadioButton strategie1 = new JRadioButton("Stratégie 1");
 		JRadioButton strategie2 = new JRadioButton("Stratégie 2");	
+		this.salesStrategy = salesStrategy;
 		
 		JButton boutonConfirmer = new JButton("Confirmer");
 
 		boutonConfirmer.addActionListener((ActionEvent e) -> {
 			// TODO - Appeler la bonne stratégie
 			System.out.println(getSelectedButtonText(groupeBoutons));
+			
+			if(getSelectedButtonText(groupeBoutons).equals("Stratégie 1")) {
+				
+				this.salesStrategy.setSales(new RandomSales());
+				
+			}else {
+				
+				this.salesStrategy.setSales(new ProgrammedSales());
+			}
 			// Fermer la fenêtre du composant
 			SwingUtilities.getWindowAncestor((Component) e.getSource()).dispose();
 		});
@@ -60,6 +75,11 @@ public class PanneauStrategie extends JPanel {
 		}
 
 		return null;
+	}
+	
+	public Sales getSalesStrategy() {
+		
+		return this.salesStrategy;
 	}
 
 }

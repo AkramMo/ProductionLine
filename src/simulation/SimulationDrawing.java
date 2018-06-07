@@ -1,5 +1,6 @@
 package simulation;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -11,7 +12,12 @@ import org.w3c.dom.NodeList;
 
 import configuration.IndustryBuilder;
 import configuration.XMLParserProductionLine;
+import industrie.Aile;
+import industrie.Avion;
+import industrie.ComponentIndustry;
 import industrie.Entrepot;
+import industrie.Metal;
+import industrie.Moteur;
 import industrie.Usine;
 import network.PathIndustry;
 
@@ -21,6 +27,7 @@ public class SimulationDrawing {
 	private XMLParserProductionLine XMLParser;
 	private ArrayList<Usine> listUsine;
 	private ArrayList<Usine> listUsineSimulation;
+	private ArrayList<ComponentIndustry> listComponent;
 	private ArrayList<PathIndustry> listPath;
 	private Entrepot entrepot;
 
@@ -32,7 +39,8 @@ public class SimulationDrawing {
 		this.listPath = new ArrayList<PathIndustry>();
 		setUsineList();
 		setListUsineSimulation();
-		//setPathList
+		setPathList();
+		setObserver();
 	}
 
 
@@ -41,14 +49,14 @@ public class SimulationDrawing {
 
 		JLabel labelIcon;
 		Point positionLabel;
-
+		pannel.removeAll();
 		//this.listUsine.get(1).getLabelIcon();
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
 			positionLabel = this.listUsineSimulation.get(i).getPosition();
-			labelIcon = this.listUsineSimulation.get(i).getLabelIcon().get(0);
+			labelIcon = this.listUsineSimulation.get(i).getLabelIcon();
 			labelIcon.setBounds(positionLabel.x,positionLabel.y, TAILLE, TAILLE);
-
+			
 			pannel.add(labelIcon);
 
 		}
@@ -60,6 +68,63 @@ public class SimulationDrawing {
 
 			pannel.add(labelIcon);
 		}
+	}
+
+	public void drawPath(Graphics g) {
+
+		int initialID;
+		int finalID;
+		Usine usineInitial;
+		Usine usineFinal;
+		Point positionInitial;
+		Point positionFinal;
+
+
+		for(int i = 0; i < this.listPath.size(); i++) {
+			initialID = this.listPath.get(i).getInitialID();
+			finalID = this.listPath.get(i).getFinalID();
+
+			if(initialID == this.entrepot.getIdEntrepot()) {
+
+				positionInitial = this.entrepot.getPosition();
+				usineFinal = getUsineByID(finalID);
+				positionFinal = usineFinal.getPosition();
+			}else if(finalID == this.entrepot.getIdEntrepot()) {
+
+				usineInitial = getUsineByID(initialID);
+				positionInitial = usineInitial.getPosition();
+				positionFinal = this.entrepot.getPosition();	
+			}else {
+
+				usineInitial = getUsineByID(initialID);
+				usineFinal = getUsineByID(finalID);
+				positionInitial = usineInitial.getPosition();
+				positionFinal = usineFinal.getPosition();
+			}
+
+			if(positionInitial.y < positionFinal.y && positionInitial.x > positionFinal.x) {
+
+				g.drawLine(positionInitial.x + 10 , positionInitial.y + 32 , positionFinal.x + 15, positionFinal.y);
+			}else if( positionInitial.y > positionFinal.y && positionInitial.x > positionFinal.x){
+
+				g.drawLine(positionInitial.x + 10 , positionInitial.y , positionFinal.x + 15, positionFinal.y + 32 );		
+			}else {
+				g.drawLine(positionInitial.x + 32, positionInitial.y + 16, positionFinal.x, positionFinal.y + 16);
+			}
+		}
+	}
+
+	private Usine getUsineByID(int usineID) {
+
+		for(int i = 0; i < this.listUsineSimulation.size(); i++) {
+
+			if(this.listUsineSimulation.get(i).getIdUsine() == usineID) {
+
+				return this.listUsineSimulation.get(i);
+			}
+		}
+
+		return null;
 	}
 
 	private void setUsineList() {
@@ -114,6 +179,27 @@ public class SimulationDrawing {
 		}
 	}
 
+	private void setPathList() {
+
+		int initialID;
+		int finalID;
+
+		if(this.XMLParser != null && this.listPath.isEmpty()) {
+
+			NodeList usinePathList = this.XMLParser.getPathList();
+
+			for(int i = 0; i < usinePathList.getLength(); i++) {
+
+				Element elementUsineAttribute = (Element) usinePathList.item(i);
+				initialID = Integer.parseInt(elementUsineAttribute.getAttribute(PathIndustry.FIELD_DE));
+				finalID = Integer.parseInt(elementUsineAttribute.getAttribute(PathIndustry.FIELD_VERS));
+
+				this.listPath.add(new PathIndustry(initialID, finalID));
+
+			}
+		}
+	}	
+
 	public void setXMLParser(XMLParserProductionLine XMLParser) {
 
 		if(this.XMLParser != XMLParser) {
@@ -122,5 +208,64 @@ public class SimulationDrawing {
 			setListUsineSimulation();
 			setUsineList();
 		}
+	}
+	
+
+	private void updateListComponent() {
+
+		String componentType;
+		ComponentIndustry component = null;
+		
+		for(int i = 0; i < listUsineSimulation.size(); i++) {
+
+			componentType = this.listUsineSimulation.get(i).getComponentOutToCreate();
+			
+			setComponentByType(component, componentType);
+
+			component.setPosition(this.listUsineSimulation.get(i).getPosition());
+		}
+	}
+	
+	private void setComponentByType(ComponentIndustry component, String type) {
+		
+		switch (type) {
+		case "metal":
+			component = new Metal();
+			break;
+		case "avion":
+			component = new Avion();
+			break;
+		case "aile":
+			component = new Aile();
+			break;
+		case "moteur":
+			component = new Moteur();
+			break;
+		default:
+			break;
+		}
+	}
+	private void setObserver() {
+
+		for(int i = 0; i < this.listUsineSimulation.size(); i++) {
+
+			this.entrepot.addObserver(this.listUsineSimulation.get(i));
+		}
+	}
+	
+	
+
+
+	public void updateUsine() {
+		
+		
+		//this.listUsine.get(1).getLabelIcon();
+		for(int i = 0; i < listUsineSimulation.size(); i++) {
+
+			this.listUsineSimulation.get(i).updateUsine();
+
+
+		}
+
 	}
 }

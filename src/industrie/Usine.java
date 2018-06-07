@@ -33,11 +33,12 @@ public class Usine implements Observer {
 	private String typeUsine;
 	private ArrayList<ComponentIndustry> entryList;
 	private ComponentIndustry componentOut;
+	private boolean stateProductionComponent = false;
 	private int timeProduction;
+	private int currentTime = 0;
 	private int idUsine = 0;
 	private LinkedList<String> labelPathList;
 	private ArrayList<JLabel> labelIconList;
-	private JLabel currentIcone;
 	private Point position;
 	private int stateIcon;
 	private boolean stateUsine;
@@ -54,7 +55,6 @@ public class Usine implements Observer {
 		this.labelIconList = new ArrayList<JLabel>();
 		this.stateIcon = 0;
 		this.stateUsine = true;
-
 		setJLabelList();
 
 	}
@@ -83,6 +83,71 @@ public class Usine implements Observer {
 		}
 	}
 
+	public void updateUsine() {
+
+		if(verifyEntry()) {
+
+			updateTime();
+
+		}
+	}
+
+	private boolean verifyEntry() {
+
+		for(int i = 0; i < this.entryList.size(); i++) {
+
+			if(this.entryList.get(i).qtyReached()) {
+
+				continue;
+
+			}else {
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private void updateTime() {
+
+		if(this.currentTime != this.timeProduction) {
+
+			this.currentTime++;
+			if(this.currentTime < (timeProduction/3)) {
+
+				this.stateIcon = 0;
+
+			}else if(this.currentTime > (timeProduction/3) && this.currentTime < ((timeProduction/3)*2)) {
+
+				this.stateIcon = 1;
+
+			}else if( this.currentTime > ((timeProduction/3)*2) && this.currentTime < (timeProduction)){
+
+				this.stateIcon = 2;
+
+			}else {
+
+				this.stateIcon =3;
+			}
+
+		}else {
+
+			this.currentTime = 0;
+			this.stateProductionComponent = true;
+			resetEntry();
+		}
+
+	}
+
+	public void resetEntry() {
+
+		for(int i = 0; i < this.entryList.size(); i++) {
+
+			this.entryList.get(i).resetEntry();
+		}
+	}
+
 	public int getIdUsine() {
 		return idUsine;
 	}
@@ -99,14 +164,14 @@ public class Usine implements Observer {
 		this.timeProduction = timeProduction;
 	}
 
-	public ArrayList<JLabel> getLabelIcon() {
+	public  JLabel getLabelIcon() {
 
-		return (ArrayList<JLabel>) labelIconList.clone();
+		return  labelIconList.get(stateIcon);
 
 	}
 
 	public LinkedList<String> getLabelPathList() {
-		
+
 		return (LinkedList<String>) labelPathList.clone();
 	}
 
@@ -120,8 +185,15 @@ public class Usine implements Observer {
 		this.entryList = (ArrayList<ComponentIndustry>) entry.clone();
 	}
 
-	public ComponentIndustry getComponentOut() {
-		return componentOut;
+	public String getComponentOutToCreate() {
+		
+		if(this.stateProductionComponent) {
+			
+			return componentOut.getType();
+		}else {
+
+			return null;
+		}
 	}
 
 	public Point getPosition() {
@@ -129,7 +201,24 @@ public class Usine implements Observer {
 	}
 
 	public void setComponentOut(ComponentIndustry componentOut) {
-		this.componentOut = componentOut;
+
+		switch (componentOut.getType()) {
+		case "metal":
+			this.componentOut = new Metal();
+			break;
+		case "avion":
+			this.componentOut = new Avion();
+			break;
+		case "aile":
+			this.componentOut = new Aile();
+			break;
+		case "moteur":
+			this.componentOut = new Moteur();
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	public void setPosition(Point position) {

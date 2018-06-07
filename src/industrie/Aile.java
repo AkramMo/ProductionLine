@@ -15,7 +15,7 @@ public class Aile extends ComponentIndustry{
 	
 	public Aile() {
 		
-		super(new Point(0,0), new Point(0,0));
+		super(new Point(0,0), new Point(0,0), "aile");
 		
 		try {
 			BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(ICONE_PATH));

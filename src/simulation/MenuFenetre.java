@@ -12,6 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
 import configuration.XMLParserProductionLine;
+import selling.Sales;
 
 public class MenuFenetre extends JMenuBar {
 
@@ -23,7 +24,8 @@ public class MenuFenetre extends JMenuBar {
 	private static final String MENU_SIMULATION_CHOISIR = "Choisir";
 	private static final String MENU_AIDE_TITRE = "Aide";
 	private static final String MENU_AIDE_PROPOS = "À propos de...";
-	private XMLParserProductionLine domParser;
+	private XMLParserProductionLine XMLParser;
+	private Sales SalesStrategy = new Sales();
 
 	public MenuFenetre() {
 		ajouterMenuFichier();
@@ -53,7 +55,7 @@ public class MenuFenetre extends JMenuBar {
 				// TODO - Parser le fichier XML sélectionné
 				File selectedFile = fileChooser.getSelectedFile();
 				System.out.println(selectedFile.getAbsolutePath());
-				this.domParser = new XMLParserProductionLine(selectedFile);
+				this.XMLParser = new XMLParserProductionLine(selectedFile);
 				
 			}
 		});
@@ -64,7 +66,7 @@ public class MenuFenetre extends JMenuBar {
 
 		menuFichier.add(menuCharger);
 		menuFichier.add(menuQuitter);
-
+		
 		add(menuFichier);
 
 	}
@@ -73,6 +75,8 @@ public class MenuFenetre extends JMenuBar {
 	 * Créer le menu de Simulation
 	 */
 	private void ajouterMenuSimulation() {
+		
+		
 		JMenu menuSimulation = new JMenu(MENU_SIMULATION_TITRE);
 		JMenuItem menuChoisir = new JMenuItem(MENU_SIMULATION_CHOISIR);
 		menuSimulation.add(menuChoisir);
@@ -80,11 +84,15 @@ public class MenuFenetre extends JMenuBar {
 		menuChoisir.addActionListener((ActionEvent e) -> {
 			// Ouvrir la fenêtre de sélection
 			// TODO - Récupérer la bonne stratégie de vente
-			new FenetreStrategie();
+			
+			FenetreStrategie fenetreStrategy = new FenetreStrategie(this.SalesStrategy);
+			
+		
 		});
 		add(menuSimulation);
 
 	}
+
 
 	/**
 	 * Créer le menu Aide
@@ -105,9 +113,15 @@ public class MenuFenetre extends JMenuBar {
 		add(menuAide);
 	}
 	
-	public XMLParserProductionLine getDomParser() {
+	public XMLParserProductionLine getXMLParser() {
 		
-		return this.domParser;
+		return this.XMLParser;
 	}
+	
+	public Sales getSalesStrategy() {
+		return SalesStrategy;
+	}
+
+	
 
 }

@@ -15,7 +15,7 @@ public class Metal extends ComponentIndustry{
 	
 	public Metal() {
 		
-		super(new Point(0,0), new Point(0,0));
+		super(new Point(0,0), new Point(0,0), "metal");
 		
 		try {
 			BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(ICONE_PATH));

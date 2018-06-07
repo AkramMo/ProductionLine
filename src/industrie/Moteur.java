@@ -15,7 +15,7 @@ public class Moteur extends ComponentIndustry{
 	
 	public Moteur() {
 		
-		super(new Point(0,0), new Point(0,0));
+		super(new Point(0,0), new Point(0,0), "moteur");
 		
 		try {
 			BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(ICONE_PATH));

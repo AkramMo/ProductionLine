@@ -2,6 +2,9 @@ package network;
 
 public class PathIndustry{
 
+	public final static String FIELD_DE = "de";
+	public final static String FIELD_VERS = "vers";
+	
 	private int initialID;
 	private int finalID;
 	

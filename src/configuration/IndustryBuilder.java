@@ -169,6 +169,7 @@ public class IndustryBuilder {
 
 				if(entryComponent != null) {
 
+					
 					entryComponent.setDesiredCapacity(desiredCapacity);
 					entryList.add(entryComponent);
 				}

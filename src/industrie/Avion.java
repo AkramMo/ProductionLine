@@ -15,7 +15,7 @@ public class Avion extends ComponentIndustry{
 	
 	public Avion() {
 		
-		super(new Point(0,0), new Point(0,0));
+		super(new Point(0,0), new Point(0,0), "avion");
 		
 		try {
 			BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(ICONE_PATH));

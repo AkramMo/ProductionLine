@@ -7,48 +7,64 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 
-public class ComponentIndustry{
+public abstract class  ComponentIndustry implements typeIndustry{
 
 	private Point vitesse;
 	private Point position;
 	private int desiredQuantity = 0;
-	private int desiredCapacity;
+	private int desiredCapacity = 0;
 	private int quantity = 0;
-	
-	public ComponentIndustry(Point vitesse,	Point position){
+	private String typeComponent;
 
+	public ComponentIndustry(Point vitesse,	Point position, String type){
+
+		this.vitesse = new Point(vitesse.x, vitesse.y);
+		this.position = new Point(position.x, position.y);
+		this.typeComponent = type;
+
+	}
+
+	public Point getVitesse() {
+		return vitesse;
+	}
+
+	public Point getPosition() {
+		return position;
+	}
+
+	public void setVitesse(Point vitesse) {
 		this.vitesse = vitesse;
+	}
+
+	public void setPosition(Point position) {
 		this.position = position;
-
-	}
-	
-	public int getDesiredCapacity() {
-		return desiredCapacity;
 	}
 
+	public boolean qtyReached() {
 
-
-	public void setDesiredCapacity(int desiredCapacity) {
-		this.desiredCapacity = desiredCapacity;
-	}
-	
-	public int getQuantity() {
-		
-		return this.quantity;
-	}
-	
-	public void setQuantity(int quantity) {
-		
-		this.quantity = quantity;
-	}
-	
-	public int getDesiredQuantity() {
-		return desiredQuantity;
+		return this.desiredCapacity == this.quantity;
 	}
 
+	public void resetEntry() {
+
+		this.quantity = 0;
+	}
 	public void setDesiredQuantity(int desiredQuantity) {
+
 		this.desiredQuantity = desiredQuantity;
 	}
 
-	
+	public void setDesiredCapacity(int desiredCapacity) {
+
+		this.desiredCapacity = desiredCapacity;
+	}
+
+
+	@Override
+	public String getType() {
+
+		return this.typeComponent;
+	}
+
+
 }
