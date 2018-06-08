@@ -122,13 +122,14 @@ public class SimulationDrawing {
 				positionInitial = usineInitial.getPosition();
 				positionFinal = usineFinal.getPosition();
 			}
-
+			
+		
 			if(positionInitial.y < positionFinal.y && positionInitial.x > positionFinal.x) {
 
-				g.drawLine(positionInitial.x + 10 , positionInitial.y + 32 , positionFinal.x + 15, positionFinal.y);
+				g.drawLine(positionInitial.x + 10 , positionInitial.y + 32 , positionFinal.x + 10, positionFinal.y);
 			}else if( positionInitial.y > positionFinal.y && positionInitial.x > positionFinal.x){
 
-				g.drawLine(positionInitial.x + 10 , positionInitial.y , positionFinal.x + 15, positionFinal.y + 32 );		
+				g.drawLine(positionInitial.x + 5 , positionInitial.y + 2 , positionFinal.x + 30, positionFinal.y + 30 );		
 			}else {
 				g.drawLine(positionInitial.x + 32, positionInitial.y + 16, positionFinal.x, positionFinal.y + 16);
 			}

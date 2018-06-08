@@ -117,6 +117,10 @@ public class Usine implements Observer {
 		if(this.currentTime != this.timeProduction) {
 
 			this.currentTime++;
+			if(this.currentTime == 100) {
+				
+				System.out.println("100");
+			}
 			if(this.currentTime < (timeProduction/3)) {
 
 				this.stateIcon = 0;
@@ -169,6 +173,9 @@ public class Usine implements Observer {
 
 	public  JLabel getLabelIcon() {
 
+		if(stateIcon == 3) {
+			int x = 2;
+		}
 		return  labelIconList.get(stateIcon);
 
 	}
@@ -192,7 +199,9 @@ public class Usine implements Observer {
 
 		if(this.stateProductionComponent) {
 
+			this.stateProductionComponent = false;
 			return componentOut.getType();
+			
 		}else {
 
 			return null;

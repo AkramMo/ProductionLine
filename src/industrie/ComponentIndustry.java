@@ -32,11 +32,13 @@ public abstract class  ComponentIndustry implements typeIndustry{
 
 	public void setVitesseAndPosition(Point initialPos, Point finalPos) {
 
-		int x = Math.abs(finalPos.x - initialPos.x);
-		int y = Math.abs(finalPos.y - initialPos.y);
-
+		int x = finalPos.x - initialPos.x;
+		int y = finalPos.y - initialPos.y;
+		int commonDivider;
+		
 		this.position.x = initialPos.x;
 		this.position.y = initialPos.y;
+		
 		if( x == 0) {
 
 			y = 1;
@@ -44,11 +46,12 @@ public abstract class  ComponentIndustry implements typeIndustry{
 
 			x = 1;
 		}else {
-			x = x/commonDivider(x, y);
-			y = y/commonDivider(x, y);
+			commonDivider = commonDivider(Math.abs(x), Math.abs(y));
+			x = x/commonDivider;
+			y = y/commonDivider;
 		}
-		this.vitesse.x = x;
-		this.vitesse.y = y;
+		this.vitesse.x = x*5;
+		this.vitesse.y = y*5;
 
 	}
 
