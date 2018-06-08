@@ -27,7 +27,7 @@ public class SimulationDrawing {
 	private XMLParserProductionLine XMLParser;
 	private ArrayList<Usine> listUsine;
 	private ArrayList<Usine> listUsineSimulation;
-	private ArrayList<ComponentIndustry> listComponent;
+	private ArrayList<ComponentIndustry> listComponent = new ArrayList<ComponentIndustry>();
 	private ArrayList<PathIndustry> listPath;
 	private Entrepot entrepot;
 
@@ -67,6 +67,27 @@ public class SimulationDrawing {
 			labelIcon.setBounds(positionLabel.x, positionLabel.y, TAILLE, TAILLE);
 
 			pannel.add(labelIcon);
+		}
+
+		drawComponent(pannel);
+	}
+
+	private void drawComponent(JPanel pannel) {
+
+		JLabel labelIcon;
+		Point positionLabel;
+
+		if(!this.listComponent.isEmpty()) {
+			for(int i = 0; i < listComponent.size(); i++) {
+
+				this.listComponent.get(i).translatePosition();
+				positionLabel = this.listComponent.get(i).getPosition();
+				labelIcon = this.listComponent.get(i).getLabelIcon();
+				labelIcon.setBounds(positionLabel.x,positionLabel.y, TAILLE, TAILLE);
+
+				pannel.add(labelIcon);
+
+			}
 		}
 	}
 
@@ -113,6 +134,8 @@ public class SimulationDrawing {
 			}
 		}
 	}
+
+
 
 	private Usine getUsineByID(int usineID) {
 
@@ -171,6 +194,7 @@ public class SimulationDrawing {
 									this.listUsine.get(j).getLabelPathList());
 							usineTMP.setPosition(position);
 							usineTMP.setIdUsine(idUsine);
+							usineTMP.setComponentOut(getComponentByType(this.listUsine.get(j).getComponentType()));
 							this.listUsineSimulation.add(usineTMP);
 						}
 					}
@@ -224,12 +248,47 @@ public class SimulationDrawing {
 			if(componentType != null) {
 				component = getComponentByType(componentType);
 
-				component.setPosition(this.listUsineSimulation.get(i).getPosition());
+				setComponentPositions(component,  this.listUsineSimulation.get(i).getIdUsine());
+
+				this.listComponent.add(component);
 			}
 		}
-		
-		
+	}
 
+	private void setComponentPositions(ComponentIndustry component, int initialID) {
+
+		int finalID = getFinalIDUsine(initialID);
+		Point initialPosition = null;
+		Point finalPosition = null;
+		for(int i = 0; i < this.listUsineSimulation.size(); i++) {
+
+			if(this.listUsineSimulation.get(i).getIdUsine() == initialID) {
+
+				initialPosition = this.listUsineSimulation.get(i).getPosition();
+
+			}else if(this.listUsineSimulation.get(i).getIdUsine() == finalID) {
+
+				finalPosition = this.listUsineSimulation.get(i).getPosition();
+			}
+		}
+
+		component.setVitesseAndPosition(initialPosition, finalPosition);
+
+	}
+
+	private int getFinalIDUsine(int initialID) {
+
+		int finalID = -1;
+
+		for(int i = 0; i < this.listPath.size(); i++) {
+
+			if(initialID == this.listPath.get(i).getInitialID()) {
+
+				finalID = this.listPath.get(i).getFinalID();
+			}
+		}
+
+		return finalID;
 
 	}
 

@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 public class Metal extends ComponentIndustry{
 
-	private JLabel labelIcon;
+	
 	private static final String ICONE_PATH = "/ressources/metal.png/";
 	
 	public Metal() {
@@ -29,7 +29,7 @@ public class Metal extends ComponentIndustry{
 		}
 	}
 	
-	
+	@Override
 	public JLabel getLabelIcon() {
 		
 		return this.labelIcon;

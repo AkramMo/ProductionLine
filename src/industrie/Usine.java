@@ -198,7 +198,12 @@ public class Usine implements Observer {
 			return null;
 		}
 	}
-
+	
+	public String getComponentType() {
+		
+		return componentOut.getType();
+	}
+	
 	public Point getPosition() {
 		return position;
 	}

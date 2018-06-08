@@ -50,7 +50,7 @@ public class PanneauPrincipal extends JPanel {
 
 			this.XMLParser = XMLParser;
 			this.simuDrawing = new SimulationDrawing(this.XMLParser);
-		}else {
+		}else if(this.salesNotEmpty()){
 			
 			this.simuDrawing.updateListComponent();
 		}
