@@ -50,13 +50,16 @@ public class PanneauPrincipal extends JPanel {
 
 			this.XMLParser = XMLParser;
 			this.simuDrawing = new SimulationDrawing(this.XMLParser);
+		}else {
+			
+			this.simuDrawing.updateListComponent();
 		}
 	}
 
 	public void setSalesStrategy(Sales salesStrategy) {
 		
 		this.SalesStrategy = salesStrategy;
-		System.out.println("Fonctionne");
+		System.out.println("Strategy set");
 	}
 
 	

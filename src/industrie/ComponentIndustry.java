@@ -42,7 +42,7 @@ public abstract class  ComponentIndustry implements typeIndustry{
 
 	public boolean qtyReached() {
 
-		return this.desiredCapacity == this.quantity;
+		return this.desiredQuantity == this.quantity;
 	}
 
 	public void resetEntry() {

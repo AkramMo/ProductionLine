@@ -70,7 +70,7 @@ public class IndustryBuilder {
 								item(0).getTextContent());
 
 						setEntryList(elementUsine, entryList);
-						setComponentOut(elementUsine, componentOut);
+						componentOut = getComponentOut(elementUsine);
 						setPathList(elementUsine, labelPathList);
 						
 						usineTMP = new Usine(typeUsine, entryList, timeProduction, labelPathList);
@@ -114,16 +114,17 @@ public class IndustryBuilder {
 
 		}
 	}
-	private void setComponentOut(Element elementUsine, ComponentIndustry componentOut) {
+	private ComponentIndustry getComponentOut(Element elementUsine) {
 
 		String componentType;
-
+		ComponentIndustry componentOut = null;
 		componentType = ((Element) elementUsine.getElementsByTagName(Usine.FIELD_SORTIE).
 				item(0)).getAttribute(Usine.FIELD_TYPE);
 
 
-		setComponentByType(componentType, componentOut);
+		componentOut = getComponentByType(componentType);
 
+		return componentOut;
 	}
 	private void setEntryList(Element elementUsine, ArrayList<ComponentIndustry> entryList) {
 
@@ -144,7 +145,7 @@ public class IndustryBuilder {
 				desiredQuantity = Integer.parseInt(((Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
 						item(0)).getAttribute(Usine.FIELD_QUANTITE));
 
-				setComponentByType(componentType, entryComponent);
+				entryComponent = getComponentByType(componentType);
 
 
 				if(entryComponent != null) {
@@ -164,7 +165,7 @@ public class IndustryBuilder {
 				desiredCapacity = Integer.parseInt(((Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
 						item(0)).getAttribute(Entrepot.FIELD_CAPACITY));
 
-				setComponentByType(componentType, entryComponent);
+				entryComponent = getComponentByType(componentType);
 
 
 				if(entryComponent != null) {
@@ -179,8 +180,10 @@ public class IndustryBuilder {
 	}
 
 
-	private void setComponentByType(String componentType, ComponentIndustry componentIndustry) {
+	private ComponentIndustry getComponentByType(String componentType) {
 
+		ComponentIndustry componentIndustry = null;
+		
 		switch (componentType) {
 		case "metal":
 			componentIndustry = new Metal();
@@ -197,6 +200,8 @@ public class IndustryBuilder {
 		default:
 			break;
 		}
+		
+		return componentIndustry;
 		
 	}
 	

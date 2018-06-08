@@ -70,7 +70,9 @@ public class Usine implements Observer {
 
 		BufferedImage classPathImage;
 		JLabel labelTMP;
+		
 		for(int i = 0; i < this.labelPathList.size(); i++) {
+			
 			try {
 				classPathImage = ImageIO.read(getClass().getResourceAsStream(this.labelPathList.get(i)));
 				labelTMP = new JLabel(new ImageIcon(classPathImage));
@@ -105,6 +107,7 @@ public class Usine implements Observer {
 				return false;
 			}
 		}
+		
 
 		return true;
 	}
@@ -186,9 +189,9 @@ public class Usine implements Observer {
 	}
 
 	public String getComponentOutToCreate() {
-		
+
 		if(this.stateProductionComponent) {
-			
+
 			return componentOut.getType();
 		}else {
 
@@ -201,24 +204,25 @@ public class Usine implements Observer {
 	}
 
 	public void setComponentOut(ComponentIndustry componentOut) {
-
-		switch (componentOut.getType()) {
-		case "metal":
-			this.componentOut = new Metal();
-			break;
-		case "avion":
-			this.componentOut = new Avion();
-			break;
-		case "aile":
-			this.componentOut = new Aile();
-			break;
-		case "moteur":
-			this.componentOut = new Moteur();
-			break;
-		default:
-			break;
+		
+		if(componentOut != null) {
+			switch (componentOut.getType()) {
+			case "metal":
+				this.componentOut = new Metal();
+				break;
+			case "avion":
+				this.componentOut = new Avion();
+				break;
+			case "aile":
+				this.componentOut = new Aile();
+				break;
+			case "moteur":
+				this.componentOut = new Moteur();
+				break;
+			default:
+				break;
+			}
 		}
-
 	}
 
 	public void setPosition(Point position) {

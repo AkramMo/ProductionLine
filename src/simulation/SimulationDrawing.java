@@ -56,7 +56,7 @@ public class SimulationDrawing {
 			positionLabel = this.listUsineSimulation.get(i).getPosition();
 			labelIcon = this.listUsineSimulation.get(i).getLabelIcon();
 			labelIcon.setBounds(positionLabel.x,positionLabel.y, TAILLE, TAILLE);
-			
+
 			pannel.add(labelIcon);
 
 		}
@@ -209,25 +209,34 @@ public class SimulationDrawing {
 			setUsineList();
 		}
 	}
-	
 
-	private void updateListComponent() {
+
+	public void updateListComponent() {
 
 		String componentType;
 		ComponentIndustry component = null;
-		
+
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
+			this.listUsineSimulation.get(i).updateUsine();
 			componentType = this.listUsineSimulation.get(i).getComponentOutToCreate();
-			
-			setComponentByType(component, componentType);
 
-			component.setPosition(this.listUsineSimulation.get(i).getPosition());
+			if(componentType != null) {
+				component = getComponentByType(componentType);
+
+				component.setPosition(this.listUsineSimulation.get(i).getPosition());
+			}
 		}
-	}
-	
-	private void setComponentByType(ComponentIndustry component, String type) {
 		
+		
+
+
+	}
+
+	private ComponentIndustry getComponentByType(String type) {
+
+		ComponentIndustry component = null;
+
 		switch (type) {
 		case "metal":
 			component = new Metal();
@@ -244,6 +253,8 @@ public class SimulationDrawing {
 		default:
 			break;
 		}
+
+		return component;
 	}
 	private void setObserver() {
 
@@ -252,13 +263,13 @@ public class SimulationDrawing {
 			this.entrepot.addObserver(this.listUsineSimulation.get(i));
 		}
 	}
-	
-	
+
+
 
 
 	public void updateUsine() {
-		
-		
+
+
 		//this.listUsine.get(1).getLabelIcon();
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
