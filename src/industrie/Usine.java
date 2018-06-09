@@ -248,6 +248,17 @@ public class Usine implements Observer {
 		return typeUsine;
 	}
 
+	
+	public void updateEntryByType(String typeComponent) {
+		
+		for(int i = 0; i < this.entryList.size(); i++) {
+			
+			if(this.entryList.get(i).getType().equals(typeComponent)) {
+				
+				this.entryList.get(i).updateQuantity();
+			}
+		}
+	}
 
 
 

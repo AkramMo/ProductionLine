@@ -19,9 +19,9 @@ public class Sales {
 		this.strategy = strategy;
 	}
 	
-	public void doASale() {
+	public boolean doASale() {
 		
-		strategy.saleStrategy();
+		return strategy.saleStrategy();
 	}
 	
 	public boolean isNotEmpty() {

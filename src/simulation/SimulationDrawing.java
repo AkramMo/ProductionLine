@@ -20,6 +20,7 @@ import industrie.Metal;
 import industrie.Moteur;
 import industrie.Usine;
 import network.PathIndustry;
+import selling.Sales;
 
 public class SimulationDrawing {
 
@@ -29,14 +30,16 @@ public class SimulationDrawing {
 	private ArrayList<Usine> listUsineSimulation;
 	private ArrayList<ComponentIndustry> listComponent = new ArrayList<ComponentIndustry>();
 	private ArrayList<PathIndustry> listPath;
+	private Sales salesStrategy;
 	private Entrepot entrepot;
 
-	public SimulationDrawing(XMLParserProductionLine XMLParser) {
+	public SimulationDrawing(XMLParserProductionLine XMLParser, Sales salesStrategy) {
 
 		this.XMLParser = XMLParser;
 		this.listUsine = new ArrayList<Usine>();
 		this.listUsineSimulation = new ArrayList<Usine>();
 		this.listPath = new ArrayList<PathIndustry>();
+		this.salesStrategy = salesStrategy;
 		setUsineList();
 		setListUsineSimulation();
 		setPathList();
@@ -77,6 +80,7 @@ public class SimulationDrawing {
 		JLabel labelIcon;
 		Point positionLabel;
 
+
 		if(!this.listComponent.isEmpty()) {
 			for(int i = 0; i < listComponent.size(); i++) {
 
@@ -89,6 +93,8 @@ public class SimulationDrawing {
 
 			}
 		}
+
+		updateComponent();
 	}
 
 	public void drawPath(Graphics g) {
@@ -122,11 +128,11 @@ public class SimulationDrawing {
 				positionInitial = usineInitial.getPosition();
 				positionFinal = usineFinal.getPosition();
 			}
-			
-		
+
+
 			if(positionInitial.y < positionFinal.y && positionInitial.x > positionFinal.x) {
 
-				g.drawLine(positionInitial.x + 10 , positionInitial.y + 32 , positionFinal.x + 10, positionFinal.y);
+				g.drawLine(positionInitial.x + 5 , positionInitial.y + 32 , positionFinal.x + 32, positionFinal.y);
 			}else if( positionInitial.y > positionFinal.y && positionInitial.x > positionFinal.x){
 
 				g.drawLine(positionInitial.x + 5 , positionInitial.y + 2 , positionFinal.x + 30, positionFinal.y + 30 );		
@@ -135,8 +141,6 @@ public class SimulationDrawing {
 			}
 		}
 	}
-
-
 
 	private Usine getUsineByID(int usineID) {
 
@@ -241,15 +245,16 @@ public class SimulationDrawing {
 		String componentType;
 		ComponentIndustry component = null;
 
+
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
-			this.listUsineSimulation.get(i).updateUsine();
 			componentType = this.listUsineSimulation.get(i).getComponentOutToCreate();
 
 			if(componentType != null) {
 				component = getComponentByType(componentType);
 
 				setComponentPositions(component,  this.listUsineSimulation.get(i).getIdUsine());
+
 
 				this.listComponent.add(component);
 			}
@@ -261,6 +266,8 @@ public class SimulationDrawing {
 		int finalID = getFinalIDUsine(initialID);
 		Point initialPosition = null;
 		Point finalPosition = null;
+
+
 		for(int i = 0; i < this.listUsineSimulation.size(); i++) {
 
 			if(this.listUsineSimulation.get(i).getIdUsine() == initialID) {
@@ -272,6 +279,11 @@ public class SimulationDrawing {
 				finalPosition = this.listUsineSimulation.get(i).getPosition();
 			}
 		}
+		if(finalID == this.entrepot.getIdEntrepot()){
+
+			finalPosition = this.entrepot.getPosition();
+		}
+
 
 		component.setVitesseAndPosition(initialPosition, finalPosition);
 
@@ -316,6 +328,7 @@ public class SimulationDrawing {
 
 		return component;
 	}
+
 	private void setObserver() {
 
 		for(int i = 0; i < this.listUsineSimulation.size(); i++) {
@@ -326,17 +339,60 @@ public class SimulationDrawing {
 
 
 
+	private void updateComponent() {
+		//this.listUsine.get(1).getLabelIcon();
 
+		int xComponent;
+		int yComponent;
+		int xUsine;
+		int yUsine;
+		int xEntrepot = this.entrepot.getPosition().x;
+		int yEntrepot = this.entrepot.getPosition().y;
+
+		for(int i = 0; i < listUsineSimulation.size(); i++) {
+
+			this.listUsineSimulation.get(i);
+
+			for(int j = 0; j < this.listComponent.size(); j++) {
+				xComponent = this.listComponent.get(j).getPosition().x; 
+				xUsine = this.listUsineSimulation.get(i).getPosition().x;				
+				yComponent = this.listComponent.get(j).getPosition().y;
+				yUsine = this.listUsineSimulation.get(i).getPosition().y;
+
+
+				if(xComponent == xUsine && yComponent == yUsine) {
+
+					this.listUsineSimulation.get(i).updateEntryByType(this.listComponent.get(j).getType());
+
+					this.listComponent.remove(j);
+
+					j--;
+				}else if(xComponent == xEntrepot && yComponent == yEntrepot) {
+					
+					this.entrepot.updateStateCapacity(this.salesStrategy);
+					this.listComponent.remove(j);
+					j--;
+				}
+			}
+
+
+
+		}
+
+	}
 	public void updateUsine() {
+
 
 
 		//this.listUsine.get(1).getLabelIcon();
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
 			this.listUsineSimulation.get(i).updateUsine();
-
+			
 
 		}
+
+
 
 	}
 }

@@ -31,14 +31,10 @@ public class IndustryBuilder {
 	public IndustryBuilder(XMLParserProductionLine domParser) {
 
 		this.domParser = domParser;
-		updateUsineList();
+		setUsineList();
 	}
 
-
-
-
-	
-	public void updateUsineList() {
+	public void setUsineList() {
 
 		String typeUsine;
 		int timeProduction = 0;
@@ -74,6 +70,7 @@ public class IndustryBuilder {
 						setPathList(elementUsine, labelPathList);
 						
 						usineTMP = new Usine(typeUsine, entryList, timeProduction, labelPathList);
+						entryList.clear();
 						usineTMP.setComponentOut(componentOut);
 						this.listUsine.add(usineTMP);
 						
@@ -83,7 +80,7 @@ public class IndustryBuilder {
 						setPathList(elementUsine, labelPathList);
 						capacity = Integer.parseInt(( (Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
 								item(0)).getAttribute(Entrepot.FIELD_CAPACITY));
-						entrepot = new Entrepot( entryList, capacity, labelPathList);
+						entrepot = new Entrepot( /*entryList,*/ capacity, labelPathList);
 						
 						this.entrepot = entrepot;
 					}
@@ -168,12 +165,12 @@ public class IndustryBuilder {
 				entryComponent = getComponentByType(componentType);
 
 
-				if(entryComponent != null) {
+			/*	if(entryComponent != null) {
 
 					
 					entryComponent.setDesiredCapacity(desiredCapacity);
 					entryList.add(entryComponent);
-				}
+				}*/
 
 			}
 		}

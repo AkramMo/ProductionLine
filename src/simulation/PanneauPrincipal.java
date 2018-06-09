@@ -11,7 +11,7 @@ public class PanneauPrincipal extends JPanel {
 
 	private XMLParserProductionLine XMLParser;
 	private SimulationDrawing simuDrawing;
-	private Sales SalesStrategy;
+	private Sales salesStrategy;
 
 	public PanneauPrincipal() {
 
@@ -49,23 +49,24 @@ public class PanneauPrincipal extends JPanel {
 		if(this.XMLParser != XMLParser) {
 
 			this.XMLParser = XMLParser;
-			this.simuDrawing = new SimulationDrawing(this.XMLParser);
+			this.simuDrawing = new SimulationDrawing(this.XMLParser, this.salesStrategy);
 		}else if(this.salesNotEmpty()){
 			
 			this.simuDrawing.updateListComponent();
+			
 		}
 	}
 
 	public void setSalesStrategy(Sales salesStrategy) {
 		
-		this.SalesStrategy = salesStrategy;
-		System.out.println("Strategy set");
+		this.salesStrategy = salesStrategy;
+	
 	}
 
 	
 	public boolean salesNotEmpty() {
 		
-		return this.SalesStrategy.isNotEmpty();
+		return this.salesStrategy.isNotEmpty();
 	}
 	
 	

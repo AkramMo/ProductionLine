@@ -7,12 +7,11 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 
-public abstract class  ComponentIndustry implements typeIndustry{
+public abstract class  ComponentIndustry {
 
 	private Point vitesse;
 	private Point position;
 	private int desiredQuantity = 0;
-	private int desiredCapacity = 0;
 	private int quantity = 0;
 	private String typeComponent;
 	protected JLabel labelIcon = null;
@@ -50,8 +49,8 @@ public abstract class  ComponentIndustry implements typeIndustry{
 			x = x/commonDivider;
 			y = y/commonDivider;
 		}
-		this.vitesse.x = x*5;
-		this.vitesse.y = y*5;
+		this.vitesse.x = x;
+		this.vitesse.y = y;
 
 	}
 
@@ -78,19 +77,15 @@ public abstract class  ComponentIndustry implements typeIndustry{
 
 		this.position.translate(this.vitesse.x, this.vitesse.y);
 	}
-
-	public Point getVitesse() {
-		return vitesse;
-	}
-
+	
 	public Point getPosition() {
+		
 		return position;
 	}
-
-	public void setVitesse(Point vitesse) {
-		this.vitesse = vitesse;
+	
+	public void updateQuantity() {
+		this.quantity ++;
 	}
-
 
 
 	public boolean qtyReached() {
@@ -107,13 +102,7 @@ public abstract class  ComponentIndustry implements typeIndustry{
 		this.desiredQuantity = desiredQuantity;
 	}
 
-	public void setDesiredCapacity(int desiredCapacity) {
 
-		this.desiredCapacity = desiredCapacity;
-	}
-
-
-	@Override
 	public String getType() {
 
 		return this.typeComponent;
