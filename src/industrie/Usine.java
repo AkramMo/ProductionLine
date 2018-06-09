@@ -34,6 +34,7 @@ public class Usine implements Observer {
 	private ArrayList<ComponentIndustry> entryList;
 	private ComponentIndustry componentOut;
 	private boolean stateProductionComponent = false;
+	private boolean stateEntrepot = false;
 	private int timeProduction;
 	private int currentTime = 0;
 	private int idUsine = 0;
@@ -42,6 +43,7 @@ public class Usine implements Observer {
 	private Point position;
 	private int stateIcon;
 	private boolean stateUsine;
+	private Entrepot entrepot;
 
 
 	public Usine(String typeUsine, ArrayList<ComponentIndustry> entryList, int timeProduction,
@@ -62,7 +64,16 @@ public class Usine implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 
-		this.stateUsine = !this.stateUsine;
+		this.entrepot = (Entrepot) arg0;
+		
+		if(this.entrepot.itIsFull()) {
+			
+			this.timeProduction = this.timeProduction * 5;
+			this.stateEntrepot = true;
+		}else if(this.stateEntrepot = true){
+			
+			this.timeProduction = this.timeProduction/5;
+		}
 
 	}
 

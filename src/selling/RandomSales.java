@@ -1,5 +1,7 @@
 package selling;
 
+import java.util.Random;
+
 public class RandomSales implements SellingStrategy {
 	
 	
@@ -9,8 +11,12 @@ public class RandomSales implements SellingStrategy {
 	}
 	@Override
 	public boolean saleStrategy() {
-		// TODO Auto-generated method stub
-		return false;
+		int x = 12;
+		
+		Random rdm = new Random();
+		
+		
+		return x == rdm.nextInt(101);
 	}
 
 }

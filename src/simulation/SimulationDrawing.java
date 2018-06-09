@@ -368,8 +368,8 @@ public class SimulationDrawing {
 
 					j--;
 				}else if(xComponent == xEntrepot && yComponent == yEntrepot) {
-					
-					this.entrepot.updateStateCapacity(this.salesStrategy);
+
+					this.entrepot.setQuantity();
 					this.listComponent.remove(j);
 					j--;
 				}
@@ -388,11 +388,12 @@ public class SimulationDrawing {
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
 			this.listUsineSimulation.get(i).updateUsine();
-			
+
 
 		}
+		if(this.salesStrategy != null) {
+			this.entrepot.doASales(salesStrategy);
 
-
-
+		}
 	}
 }

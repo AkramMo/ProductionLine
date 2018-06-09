@@ -40,28 +40,36 @@ public class Entrepot extends Observable{
 		setJLabelList();
 	}
 
-	public synchronized void updateStateCapacity(Sales salesStrategy) {
+	public synchronized void setQuantity() {
+
+		if(this.quantity != capacity) {
 
 
-		if(quantity != capacity) {
-
-			quantity++;
-			
-		}else if(capacityReached) {
-
-			super.setChanged();
-			super.notifyObservers();
-			capacityReached = false;
+			this.quantity++;
+			setChanged();
+			notifyObservers();
 		}
-		
-		if(quantity > 0 && salesStrategy.doASale()) {
-
-				quantity--;
-				
-				
-		}else if(quantity == capacity && capacityReached)
 
 	}
+
+	public synchronized void doASales(Sales salesStrategy) {
+
+		if(salesStrategy != null ) {
+			if(salesStrategy.doASale() && quantity > 0) {
+
+				quantity--;
+				setChanged();
+				notifyObservers();
+			}
+		}
+	}
+
+	public boolean itIsFull() {
+
+
+		return this.capacity == this.quantity;
+	}
+
 
 
 
