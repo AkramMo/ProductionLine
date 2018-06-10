@@ -11,12 +11,11 @@ public class RandomSales implements SellingStrategy {
 	}
 	@Override
 	public boolean saleStrategy() {
+		
+		// Number not significant
 		int x = 12;
 		
 		Random rdm = new Random();
-		
-		
-		return x == rdm.nextInt(2550);
+		return x == rdm.nextInt(550);
 	}
-
 }

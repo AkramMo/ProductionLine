@@ -52,7 +52,7 @@ public class MenuFenetre extends JMenuBar {
 			int returnValue = fileChooser.showOpenDialog(null);
 
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				// TODO - Parser le fichier XML sélectionné
+
 				File selectedFile = fileChooser.getSelectedFile();
 				System.out.println(selectedFile.getAbsolutePath());
 				this.XMLParser = new XMLParserProductionLine(selectedFile);
@@ -83,7 +83,7 @@ public class MenuFenetre extends JMenuBar {
 
 		menuChoisir.addActionListener((ActionEvent e) -> {
 			// Ouvrir la fenêtre de sélection
-			// TODO - Récupérer la bonne stratégie de vente
+			
 			
 			FenetreStrategie fenetreStrategy = new FenetreStrategie(this.SalesStrategy);
 			
@@ -119,6 +119,7 @@ public class MenuFenetre extends JMenuBar {
 	}
 	
 	public Sales getSalesStrategy() {
+		
 		return SalesStrategy;
 	}
 

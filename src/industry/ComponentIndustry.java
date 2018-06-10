@@ -1,24 +1,20 @@
-package industrie;
+package industry;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.JLabel;
 
 public abstract class  ComponentIndustry {
 
-	private Point vitesse;
+	private Point speed;
 	private Point position;
 	private int desiredQuantity = 0;
 	private int quantity = 0;
 	private String typeComponent;
 	protected JLabel labelIcon = null;
 
-	public ComponentIndustry(Point vitesse,	Point position, String type){
+	public ComponentIndustry(Point speed,	Point position, String type){
 
-		this.vitesse = new Point(vitesse.x, vitesse.y);
+		this.speed = new Point(speed.x, speed.y);
 		this.position = new Point(position.x, position.y);
 		this.typeComponent = type;
 
@@ -29,7 +25,7 @@ public abstract class  ComponentIndustry {
 		return this.labelIcon;
 	}
 
-	public void setVitesseAndPosition(Point initialPos, Point finalPos) {
+	public void setSpeedAndPosition(Point initialPos, Point finalPos) {
 
 		int x = finalPos.x - initialPos.x;
 		int y = finalPos.y - initialPos.y;
@@ -49,8 +45,9 @@ public abstract class  ComponentIndustry {
 			x = x/commonDivider;
 			y = y/commonDivider;
 		}
-		this.vitesse.x = x;
-		this.vitesse.y = y;
+		
+		this.speed.x = x;
+		this.speed.y = y;
 
 	}
 
@@ -75,7 +72,7 @@ public abstract class  ComponentIndustry {
 
 	public void translatePosition() {
 
-		this.position.translate(this.vitesse.x, this.vitesse.y);
+		this.position.translate(this.speed.x, this.speed.y);
 	}
 
 	public Point getPosition() {

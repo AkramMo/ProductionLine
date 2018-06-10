@@ -15,18 +15,22 @@ public class PathIndustry{
 	}
 
 	public int getInitialID() {
+		
 		return initialID;
 	}
 
 	public int getFinalID() {
+		
 		return finalID;
 	}
 
 	public void setInitialID(int initialID) {
+		
 		this.initialID = initialID;
 	}
 
 	public void setFinalID(int finalID) {
+		
 		this.finalID = finalID;
 	}
 	

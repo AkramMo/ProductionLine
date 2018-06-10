@@ -1,4 +1,4 @@
-package industrie;
+package industry;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -6,30 +6,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
-import java.util.Observer;
 
 import selling.Sales;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class Entrepot extends Observable{
+public class Store extends Observable{
 
 
 	public static final String FIELD_CAPACITY = "capacite";
 	public static final String TYPE_USINE = "entrepot";
-
-	//private ArrayList<ComponentIndustry> entryList
+	
 	private int capacity;
 	private int quantity;
-	private int idEntrepot = 0;
+	private int idStore = 0;
 	private LinkedList<String> labelPathList;
 	private ArrayList<JLabel> labelIconList;
 	private Point position;
 	private int stateIcon = 0;
 
-	public Entrepot( /*ArrayList<ComponentIndustry> entryList, */int capacity,
-			LinkedList<String> labelPathList) {
+	@SuppressWarnings("unchecked")
+	public Store( int capacity,LinkedList<String> labelPathList) {
 
 		//this.entryList = entryList;
 		this.capacity = capacity;
@@ -43,18 +41,14 @@ public class Entrepot extends Observable{
 
 		if(this.quantity != capacity) {
 
-
 			this.quantity++;
 			updateLabel();
 			setChanged();
 			notifyObservers();
 		}
-
 	}
 
 	public void updateLabel() {
-		
-		
 			
 			if(this.quantity <= (capacity/3)) {
 
@@ -72,17 +66,15 @@ public class Entrepot extends Observable{
 
 				this.stateIcon =3;
 			}
-
-		
-
 	}
+	
 	public synchronized void doASales(Sales salesStrategy) {
 
 		if(salesStrategy != null ) {
 			if(salesStrategy.doASale() && quantity > 0) {
-
+				
+				System.out.println("Une vente a été effectué ! ");
 				quantity--;
-				System.out.println("Une vente");
 				setChanged();
 				notifyObservers();
 			}
@@ -90,7 +82,6 @@ public class Entrepot extends Observable{
 	}
 
 	public boolean itIsFull() {
-
 
 		return this.capacity == this.quantity;
 	}
@@ -118,12 +109,14 @@ public class Entrepot extends Observable{
 		}
 	}
 
-	public int getIdEntrepot() {
-		return idEntrepot;
+	public int getIdStore() {
+		
+		return idStore;
 	}
 
-	public void setIdEntrepot(int idEntrepot) {
-		this.idEntrepot = idEntrepot;
+	public void setIdStore(int idStore) {
+		
+		this.idStore = idStore;
 	}
 
 	/*

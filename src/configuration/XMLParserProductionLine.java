@@ -2,38 +2,33 @@ package configuration;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XMLParserProductionLine {
 
 	
-	private NodeList usineList;
+	private NodeList industryList;
 	private NodeList pathList;
-	private NodeList usineAttributeList;
+	private NodeList industryAttributeList;
 	private Document doc;
 
 	public XMLParserProductionLine(File xmlFiles) {
 
 		buildAndGetDoc(xmlFiles);
 		setList();
-		/*this.usineList = usineList;
-		this.simulationList = usineList;
-		this.doc = doc;*/
 	}
 
 	private void buildAndGetDoc(File xmlFiles) {
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
+		
 		try {
 
 			db = dbf.newDocumentBuilder();
@@ -61,22 +56,25 @@ public class XMLParserProductionLine {
 		Element metaElement = (Element) doc.getElementsByTagName("metadonnees").item(0);
 		Element simuElement = (Element) doc.getElementsByTagName("simulation").item(0);
 		
-		this.usineList = metaElement.getElementsByTagName("usine");
-		this.usineAttributeList = simuElement.getElementsByTagName("usine");
+		this.industryList = metaElement.getElementsByTagName("usine");
+		this.industryAttributeList = simuElement.getElementsByTagName("usine");
 		this.pathList = simuElement.getElementsByTagName("chemin");
 		
 	}
 
-	public NodeList getUsineList() {
-		return usineList;
+	public NodeList getIndustryList() {
+		
+		return industryList;
 	}
 
 	public NodeList getPathList() {
+		
 		return pathList;
 	}
 
-	public NodeList getUsineAttributeList() {
-		return usineAttributeList;
+	public NodeList getIndustryAttributeList() {
+		
+		return industryAttributeList;
 	}
 
 }

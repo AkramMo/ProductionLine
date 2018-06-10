@@ -10,12 +10,12 @@ public class PanneauPrincipal extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private XMLParserProductionLine XMLParser;
-	private SimulationDrawing simuDrawing;
+	private SimulationProcess simulationProcess;
 	private Sales salesStrategy;
 
 	public PanneauPrincipal() {
 
-		this.simuDrawing = null;
+		this.simulationProcess = null;
 	}
 
 	@Override
@@ -23,21 +23,19 @@ public class PanneauPrincipal extends JPanel {
 		super.paint(g);
 
 		drawSimulation(g);
-		//position.translate(vitesse.x, vitesse.y);
-		repaint();
 	}
 
 
 	private void drawSimulation(Graphics g) {
 
-		if(this.simuDrawing != null) {
+		if(this.simulationProcess != null) {
 
-			this.simuDrawing.drawPath(g);
-			this.simuDrawing.drawUsine(this);
+			this.simulationProcess.drawPath(g);
+			this.simulationProcess.drawIndustry(this);
 
 			if(salesNotEmpty()){
 				
-			this.simuDrawing.updateUsine();
+			this.simulationProcess.updateIndustry();
 			}
 		}
 
@@ -50,18 +48,16 @@ public class PanneauPrincipal extends JPanel {
 		if(this.XMLParser != XMLParser) {
 
 			this.XMLParser = XMLParser;
-			this.simuDrawing = new SimulationDrawing(this.XMLParser);
+			this.simulationProcess = new SimulationProcess(this.XMLParser);
 		}else if(this.salesNotEmpty()){
 			
-			this.simuDrawing.updateListComponent(this.salesStrategy);
-			
+			this.simulationProcess.updateListComponent(this.salesStrategy);
 		}
 	}
 
 	public void setSalesStrategy(Sales salesStrategy) {
 		
 		this.salesStrategy = salesStrategy;
-	
 	}
 
 	

@@ -1,4 +1,4 @@
-package industrie;
+package industry;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -8,14 +8,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class Aile extends ComponentIndustry{
+public class Plane extends ComponentIndustry{
 
 	private JLabel labelIcon;
-	private static final String ICONE_PATH = "/ressources/aile.png/";
+	private static final String ICONE_PATH = "/ressources/avion.png/";
 	
-	public Aile() {
+	public Plane() {
 		
-		super(new Point(0,0), new Point(0,0), "aile");
+		super(new Point(0,0), new Point(0,0), "avion");
 		
 		try {
 			BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(ICONE_PATH));
@@ -30,6 +30,9 @@ public class Aile extends ComponentIndustry{
 	}
 	
 	
+
+
+
 	public JLabel getLabelIcon() {
 		
 		return this.labelIcon;

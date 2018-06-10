@@ -1,88 +1,78 @@
 package configuration;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import industrie.Aile;
-import industrie.Avion;
-import industrie.ComponentIndustry;
-import industrie.Entrepot;
-import industrie.Metal;
-import industrie.Moteur;
-import industrie.Usine;
+import industry.Wing;
+import industry.Plane;
+import industry.ComponentIndustry;
+import industry.Metal;
+import industry.Engine;
+import industry.Store;
+import industry.Industry;
 
 public class IndustryBuilder {
 
-	private ArrayList<Usine> listUsine = new ArrayList<Usine>();
-	private Entrepot entrepot;
-	private XMLParserProductionLine domParser;
+	private ArrayList<Industry> listIndustry = new ArrayList<Industry>();
+	private Store store;
+	private XMLParserProductionLine xmlParser;
 
 
-	public IndustryBuilder(XMLParserProductionLine domParser) {
+	public IndustryBuilder(XMLParserProductionLine xmlParser) {
 
-		this.domParser = domParser;
-		setUsineList();
+		this.xmlParser = xmlParser;
+		setIndustryList();
 	}
 
-	public void setUsineList() {
+	private void setIndustryList() {
 
-		String typeUsine;
+		String industryType;
 		int timeProduction = 0;
 		int capacity = 0;
 		ComponentIndustry componentOut = null;
 		ArrayList<ComponentIndustry> entryList = new ArrayList<ComponentIndustry>();
 		LinkedList<String> labelPathList= new LinkedList<String>();
-		Usine usineTMP;
-		Entrepot entrepot;
+		Industry industryTMP;
+		Store store;
 
 
-		if(this.domParser != null) {
+		if(this.xmlParser != null) {
 
-			NodeList usineList = this.domParser.getUsineList();
+			NodeList nodeIndustry= this.xmlParser.getIndustryList();
 
-			for(int i = 0; i < usineList.getLength(); i++) {
+			for(int i = 0; i < nodeIndustry.getLength(); i++) {
 
-				Node nNode = usineList.item(i);
-				//System.out.println("Element courant " + nNode.getNodeName());
+				Node nNode = nodeIndustry.item(i);
 
 				if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-					Element elementUsine = (Element) nNode;
+					Element elementIndustry = (Element) nNode;
 
-					typeUsine = elementUsine.getAttribute(Usine.FIELD_TYPE);
-					if(!typeUsine.equals("entrepot")) {
+					industryType = elementIndustry.getAttribute(Industry.FIELD_TYPE);
+					if(!industryType.equals("entrepot")) {
 						
-						timeProduction = Integer.parseInt(elementUsine.getElementsByTagName(Usine.FIELD_INTERVAL).
+						timeProduction = Integer.parseInt(elementIndustry.getElementsByTagName(Industry.FIELD_INTERVAL).
 								item(0).getTextContent());
 
-						setEntryList(elementUsine, entryList);
-						componentOut = getComponentOut(elementUsine);
-						setPathList(elementUsine, labelPathList);
+						setEntryList(elementIndustry, entryList);
+						componentOut = getComponentOut(elementIndustry);
+						setPathList(elementIndustry, labelPathList);
 						
-						usineTMP = new Usine(typeUsine, entryList, timeProduction, labelPathList);
+						industryTMP = new Industry(industryType, entryList, timeProduction, labelPathList);
 						entryList.clear();
-						usineTMP.setComponentOut(componentOut);
-						this.listUsine.add(usineTMP);
+						industryTMP.setComponentOut(componentOut);
+						this.listIndustry.add(industryTMP);
 						
 					}else {
 
-						setEntryList(elementUsine,entryList);
-						setPathList(elementUsine, labelPathList);
-						capacity = Integer.parseInt(( (Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
-								item(0)).getAttribute(Entrepot.FIELD_CAPACITY));
-						entrepot = new Entrepot( /*entryList,*/ capacity, labelPathList);
-						
-						this.entrepot = entrepot;
+						setEntryList(elementIndustry,entryList);
+						setPathList(elementIndustry, labelPathList);
+						capacity = Integer.parseInt(( (Element) elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
+								item(0)).getAttribute(Store.FIELD_CAPACITY));
+						store = new Store(capacity, labelPathList);
+						this.store = store;
 					}
 
 				}
@@ -93,54 +83,55 @@ public class IndustryBuilder {
 	}
 
 
-	private void setPathList(Element elementUsine, LinkedList<String> pathIconList) {
+	private void setPathList(Element elementIndustry, LinkedList<String> pathIconList) {
 
 
-		Node node = elementUsine.getElementsByTagName(Usine.FIELD_ICONES).item(0);
-		NodeList iconeList = ((Element) node).getElementsByTagName(Usine.FIELD_ICONE);
+		Node node = elementIndustry.getElementsByTagName(Industry.FIELD_ICONES).item(0);
+		NodeList iconeList = ((Element) node).getElementsByTagName(Industry.FIELD_ICONE);
 		Element iconeElement;
 		String iconePath;
 		
 		for(int i = 0; i < iconeList.getLength(); i++) {
 			
 			iconeElement = (Element) iconeList.item(i);
-			iconePath =  iconeElement.getAttribute(Usine.FIELD_PATH);
+			iconePath =  iconeElement.getAttribute(Industry.FIELD_PATH);
 			iconePath = iconePath.substring(3);
 			pathIconList.add(iconePath);
 
 
 		}
 	}
-	private ComponentIndustry getComponentOut(Element elementUsine) {
+	
+	private ComponentIndustry getComponentOut(Element elementIndustry) {
 
 		String componentType;
 		ComponentIndustry componentOut = null;
-		componentType = ((Element) elementUsine.getElementsByTagName(Usine.FIELD_SORTIE).
-				item(0)).getAttribute(Usine.FIELD_TYPE);
+		componentType = ((Element) elementIndustry.getElementsByTagName(Industry.FIELD_SORTIE).
+				item(0)).getAttribute(Industry.FIELD_TYPE);
 
 
 		componentOut = getComponentByType(componentType);
 
 		return componentOut;
 	}
-	private void setEntryList(Element elementUsine, ArrayList<ComponentIndustry> entryList) {
+	
+	private void setEntryList(Element elementIndustry, ArrayList<ComponentIndustry> entryList) {
 
 		String componentType;
 		int desiredQuantity = 0;
-		int desiredCapacity = 0;
 		ComponentIndustry entryComponent = null;
 
 		//Element usineAttributes = 
-		if( elementUsine.getElementsByTagName(Usine.FIELD_ENTREE) != null && 
-				!elementUsine.getAttribute(Usine.FIELD_TYPE).equals("entrepot")) {
+		if( elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE) != null && 
+				!elementIndustry.getAttribute(Industry.FIELD_TYPE).equals("entrepot")) {
 
-			for(int i = 0; i < elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
+			for(int i = 0; i < elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
 					getLength(); i++) {
 
-				componentType = ((Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
-						item(0)).getAttribute(Usine.FIELD_TYPE);
-				desiredQuantity = Integer.parseInt(((Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
-						item(0)).getAttribute(Usine.FIELD_QUANTITE));
+				componentType = ((Element) elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
+						item(0)).getAttribute(Industry.FIELD_TYPE);
+				desiredQuantity = Integer.parseInt(((Element) elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
+						item(0)).getAttribute(Industry.FIELD_QUANTITE));
 
 				entryComponent = getComponentByType(componentType);
 
@@ -150,28 +141,15 @@ public class IndustryBuilder {
 					entryComponent.setDesiredQuantity(desiredQuantity);
 					entryList.add(entryComponent);
 				}
-
 			}
 		}else {
 
-			for(int i = 0; i < elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
+			for(int i = 0; i < elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
 					getLength(); i++) {
 
-				componentType = ((Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
-						item(0)).getAttribute(Usine.FIELD_TYPE);
-				desiredCapacity = Integer.parseInt(((Element) elementUsine.getElementsByTagName(Usine.FIELD_ENTREE).
-						item(0)).getAttribute(Entrepot.FIELD_CAPACITY));
-
+				componentType = ((Element) elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
+						item(0)).getAttribute(Industry.FIELD_TYPE);
 				entryComponent = getComponentByType(componentType);
-
-
-			/*	if(entryComponent != null) {
-
-					
-					entryComponent.setDesiredCapacity(desiredCapacity);
-					entryList.add(entryComponent);
-				}*/
-
 			}
 		}
 	}
@@ -186,13 +164,13 @@ public class IndustryBuilder {
 			componentIndustry = new Metal();
 			break;
 		case "avion":
-			componentIndustry = new Avion();
+			componentIndustry = new Plane();
 			break;
 		case "aile":
-			componentIndustry = new Aile();
+			componentIndustry = new Wing();
 			break;
 		case "moteur":
-			componentIndustry = new Moteur();
+			componentIndustry = new Engine();
 			break;
 		default:
 			break;
@@ -202,12 +180,14 @@ public class IndustryBuilder {
 		
 	}
 	
-	public ArrayList<Usine> getListUsine() {
+	@SuppressWarnings("unchecked")
+	public ArrayList<Industry> getListIndustry() {
 		
-		return (ArrayList<Usine>) listUsine.clone();
+		return (ArrayList<Industry>) listIndustry.clone();
 	}
 
-	public Entrepot getEntrepot() {
-		return entrepot;
+	public Store getStore() {
+		
+		return store;
 	}
 }

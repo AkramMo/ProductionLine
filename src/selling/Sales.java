@@ -33,7 +33,5 @@ public class Sales {
 			
 			return false;
 		}
-		
-		
 	}
 }

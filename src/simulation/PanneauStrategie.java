@@ -30,8 +30,8 @@ public class PanneauStrategie extends JPanel {
 		JButton boutonConfirmer = new JButton("Confirmer");
 
 		boutonConfirmer.addActionListener((ActionEvent e) -> {
-			// TODO - Appeler la bonne stratégie
-			System.out.println(getSelectedButtonText(groupeBoutons));
+			
+			System.out.println("La stratégie de vente choisie est la " + getSelectedButtonText(groupeBoutons));
 			
 			if(getSelectedButtonText(groupeBoutons).equals("Stratégie 1")) {
 				
@@ -41,6 +41,7 @@ public class PanneauStrategie extends JPanel {
 				
 				this.salesStrategy.setSales(new ProgrammedSales());
 			}
+			
 			// Fermer la fenêtre du composant
 			SwingUtilities.getWindowAncestor((Component) e.getSource()).dispose();
 		});

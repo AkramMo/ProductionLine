@@ -50,9 +50,7 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 			if(menuFenetre.getSalesStrategy() != null ) {
 				
 				panneauPrincipal.setSalesStrategy(menuFenetre.getSalesStrategy());
-				
 			}
 		}
-		
 	}
 }
