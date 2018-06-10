@@ -120,13 +120,12 @@ public class Usine implements Observer {
 			}
 		}
 		
-
 		return true;
 	}
 
 	private void updateTime() {
 
-		if(this.currentTime != this.timeProduction) {
+		if(this.currentTime < this.timeProduction ) {
 
 			this.currentTime++;
 			
@@ -263,11 +262,13 @@ public class Usine implements Observer {
 		
 		for(int i = 0; i < this.entryList.size(); i++) {
 			
-			if(this.entryList.get(i).getType().equals(typeComponent)) {
+			if(this.entryList.get(i).getType().equals(typeComponent) && !this.entryList.get(i).qtyReached()) {
 				
 				this.entryList.get(i).updateQuantity();
+				
 			}
 		}
+		
 	}
 
 

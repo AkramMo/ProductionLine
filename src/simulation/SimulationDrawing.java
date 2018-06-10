@@ -393,6 +393,7 @@ public class SimulationDrawing {
 		if(this.salesStrategy != null) {
 			
 			this.entrepot.doASales(salesStrategy);
+			this.entrepot.updateLabel();
 		}
 	}
 }

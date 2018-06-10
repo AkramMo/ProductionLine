@@ -52,7 +52,7 @@ public class Entrepot extends Observable{
 
 	}
 
-	private void updateLabel() {
+	public void updateLabel() {
 		
 		
 			

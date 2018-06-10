@@ -34,10 +34,10 @@ public abstract class  ComponentIndustry {
 		int x = finalPos.x - initialPos.x;
 		int y = finalPos.y - initialPos.y;
 		int commonDivider;
-		
+
 		this.position.x = initialPos.x;
 		this.position.y = initialPos.y;
-		
+
 		if( x == 0) {
 
 			y = 1;
@@ -77,14 +77,18 @@ public abstract class  ComponentIndustry {
 
 		this.position.translate(this.vitesse.x, this.vitesse.y);
 	}
-	
+
 	public Point getPosition() {
-		
+
 		return position;
 	}
-	
+
 	public void updateQuantity() {
-		this.quantity ++;
+		
+		if(!qtyReached()) {
+			
+			this.quantity ++;
+		}
 	}
 
 

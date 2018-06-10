@@ -24,7 +24,7 @@ public class PanneauPrincipal extends JPanel {
 
 		drawSimulation(g);
 		//position.translate(vitesse.x, vitesse.y);
-	
+		repaint();
 	}
 
 
