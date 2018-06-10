@@ -26,7 +26,7 @@ public class Entrepot extends Observable{
 	private LinkedList<String> labelPathList;
 	private ArrayList<JLabel> labelIconList;
 	private Point position;
-	private boolean capacityReached;
+	private int stateIcon = 0;
 
 	public Entrepot( /*ArrayList<ComponentIndustry> entryList, */int capacity,
 			LinkedList<String> labelPathList) {
@@ -35,7 +35,6 @@ public class Entrepot extends Observable{
 		this.capacity = capacity;
 		this.labelPathList = (LinkedList<String>) labelPathList.clone();
 		this.labelIconList = new ArrayList<JLabel>();
-		this.capacityReached= false;
 
 		setJLabelList();
 	}
@@ -46,18 +45,44 @@ public class Entrepot extends Observable{
 
 
 			this.quantity++;
+			updateLabel();
 			setChanged();
 			notifyObservers();
 		}
 
 	}
 
+	private void updateLabel() {
+		
+		
+			
+			if(this.quantity <= (capacity/3)) {
+
+				this.stateIcon = 0;
+
+			}else if(this.quantity > (capacity/3) && this.quantity <= ((capacity/3)*2)) {
+
+				this.stateIcon = 1;
+
+			}else if( this.quantity > ((capacity/3)*2) && this.quantity < (capacity)){
+
+				this.stateIcon = 2;
+
+			}else {
+
+				this.stateIcon =3;
+			}
+
+		
+
+	}
 	public synchronized void doASales(Sales salesStrategy) {
 
 		if(salesStrategy != null ) {
 			if(salesStrategy.doASale() && quantity > 0) {
 
 				quantity--;
+				System.out.println("Une vente");
 				setChanged();
 				notifyObservers();
 			}
@@ -71,7 +96,10 @@ public class Entrepot extends Observable{
 	}
 
 
-
+	public int getQuantity() {
+		
+		return this.quantity;
+	}
 
 	private void setJLabelList() {
 
@@ -109,8 +137,8 @@ public class Entrepot extends Observable{
 	}
 
 
-	public ArrayList<JLabel> getLabelIconList() {
-		return labelIconList;
+	public JLabel getJLabel() {
+		return labelIconList.get(this.stateIcon);
 	}
 
 

@@ -16,7 +16,7 @@ public class RandomSales implements SellingStrategy {
 		Random rdm = new Random();
 		
 		
-		return x == rdm.nextInt(101);
+		return x == rdm.nextInt(250);
 	}
 
 }

@@ -66,13 +66,14 @@ public class Usine implements Observer {
 
 		this.entrepot = (Entrepot) arg0;
 		
-		if(this.entrepot.itIsFull()) {
+		if(this.entrepot.itIsFull() && !this.stateEntrepot) {
 			
-			this.timeProduction = this.timeProduction * 5;
+			this.timeProduction = this.timeProduction* 5;
 			this.stateEntrepot = true;
-		}else if(this.stateEntrepot = true){
+		}else if(this.stateEntrepot){
 			
 			this.timeProduction = this.timeProduction/5;
+			this.stateEntrepot = false;
 		}
 
 	}
@@ -128,15 +129,12 @@ public class Usine implements Observer {
 		if(this.currentTime != this.timeProduction) {
 
 			this.currentTime++;
-			if(this.currentTime == 100) {
-				
-				System.out.println("100");
-			}
-			if(this.currentTime < (timeProduction/3)) {
+			
+			if(this.currentTime <= (timeProduction/3)) {
 
 				this.stateIcon = 0;
 
-			}else if(this.currentTime > (timeProduction/3) && this.currentTime < ((timeProduction/3)*2)) {
+			}else if(this.currentTime > (timeProduction/3) && this.currentTime <= ((timeProduction/3)*2)) {
 
 				this.stateIcon = 1;
 
@@ -211,6 +209,7 @@ public class Usine implements Observer {
 		if(this.stateProductionComponent) {
 
 			this.stateProductionComponent = false;
+			this.stateIcon = 0;
 			return componentOut.getType();
 			
 		}else {

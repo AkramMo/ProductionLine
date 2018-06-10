@@ -23,17 +23,17 @@ public class PanneauPrincipal extends JPanel {
 		super.paint(g);
 
 		drawSimulation(g);
-		
 		//position.translate(vitesse.x, vitesse.y);
-
+	
 	}
 
 
 	private void drawSimulation(Graphics g) {
 
 		if(this.simuDrawing != null) {
-			this.simuDrawing.drawUsine(this);
+
 			this.simuDrawing.drawPath(g);
+			this.simuDrawing.drawUsine(this);
 
 			if(salesNotEmpty()){
 				
@@ -43,16 +43,17 @@ public class PanneauPrincipal extends JPanel {
 
 	}
 
+	
 
 	public void updateMainPanel(XMLParserProductionLine XMLParser) {
 
 		if(this.XMLParser != XMLParser) {
 
 			this.XMLParser = XMLParser;
-			this.simuDrawing = new SimulationDrawing(this.XMLParser, this.salesStrategy);
+			this.simuDrawing = new SimulationDrawing(this.XMLParser);
 		}else if(this.salesNotEmpty()){
 			
-			this.simuDrawing.updateListComponent();
+			this.simuDrawing.updateListComponent(this.salesStrategy);
 			
 		}
 	}

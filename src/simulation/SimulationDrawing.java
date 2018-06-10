@@ -33,13 +33,12 @@ public class SimulationDrawing {
 	private Sales salesStrategy;
 	private Entrepot entrepot;
 
-	public SimulationDrawing(XMLParserProductionLine XMLParser, Sales salesStrategy) {
+	public SimulationDrawing(XMLParserProductionLine XMLParser) {
 
 		this.XMLParser = XMLParser;
 		this.listUsine = new ArrayList<Usine>();
 		this.listUsineSimulation = new ArrayList<Usine>();
 		this.listPath = new ArrayList<PathIndustry>();
-		this.salesStrategy = salesStrategy;
 		setUsineList();
 		setListUsineSimulation();
 		setPathList();
@@ -54,6 +53,7 @@ public class SimulationDrawing {
 		Point positionLabel;
 		pannel.removeAll();
 		//this.listUsine.get(1).getLabelIcon();
+		
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
 			positionLabel = this.listUsineSimulation.get(i).getPosition();
@@ -66,7 +66,7 @@ public class SimulationDrawing {
 
 		if(this.entrepot != null) {
 			positionLabel = this.entrepot.getPosition();
-			labelIcon = this.entrepot.getLabelIconList().get(0);
+			labelIcon = this.entrepot.getJLabel();
 			labelIcon.setBounds(positionLabel.x, positionLabel.y, TAILLE, TAILLE);
 
 			pannel.add(labelIcon);
@@ -240,11 +240,11 @@ public class SimulationDrawing {
 	}
 
 
-	public void updateListComponent() {
+	public void updateListComponent(Sales salesStrategy) {
 
 		String componentType;
 		ComponentIndustry component = null;
-
+		this.salesStrategy = salesStrategy;
 
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
@@ -388,12 +388,11 @@ public class SimulationDrawing {
 		for(int i = 0; i < listUsineSimulation.size(); i++) {
 
 			this.listUsineSimulation.get(i).updateUsine();
-
-
 		}
+		
 		if(this.salesStrategy != null) {
+			
 			this.entrepot.doASales(salesStrategy);
-
 		}
 	}
 }

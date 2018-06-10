@@ -4,7 +4,7 @@ import javax.swing.SwingWorker;
 
 public class Environnement extends SwingWorker<Object, String> {
 	private boolean actif = true;
-	private static final int DELAI = 1/100;
+	private static final int DELAI = 1;
 	
 	@Override
 	protected Object doInBackground() throws Exception {
