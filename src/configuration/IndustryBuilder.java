@@ -16,7 +16,7 @@ import industry.Industry;
 public class IndustryBuilder {
 
 	private ArrayList<Industry> listIndustry = new ArrayList<Industry>();
-	private Store store;
+	private ArrayList<Store> storeList = new ArrayList<Store>();
 	private XMLParserProductionLine xmlParser;
 
 
@@ -52,19 +52,19 @@ public class IndustryBuilder {
 
 					industryType = elementIndustry.getAttribute(Industry.FIELD_TYPE);
 					if(!industryType.equals("entrepot")) {
-						
+
 						timeProduction = Integer.parseInt(elementIndustry.getElementsByTagName(Industry.FIELD_INTERVAL).
 								item(0).getTextContent());
 
 						setEntryList(elementIndustry, entryList);
 						componentOut = getComponentOut(elementIndustry);
 						setPathList(elementIndustry, labelPathList);
-						
+
 						industryTMP = new Industry(industryType, entryList, timeProduction, labelPathList);
 						entryList.clear();
 						industryTMP.setComponentOut(componentOut);
 						this.listIndustry.add(industryTMP);
-						
+
 					}else {
 
 						setEntryList(elementIndustry,entryList);
@@ -72,7 +72,7 @@ public class IndustryBuilder {
 						capacity = Integer.parseInt(( (Element) elementIndustry.getElementsByTagName(Industry.FIELD_ENTREE).
 								item(0)).getAttribute(Store.FIELD_CAPACITY));
 						store = new Store(capacity, labelPathList);
-						this.store = store;
+						this.storeList.add(store);
 					}
 
 				}
@@ -90,18 +90,16 @@ public class IndustryBuilder {
 		NodeList iconeList = ((Element) node).getElementsByTagName(Industry.FIELD_ICONE);
 		Element iconeElement;
 		String iconePath;
-		
+
 		for(int i = 0; i < iconeList.getLength(); i++) {
 			
 			iconeElement = (Element) iconeList.item(i);
-			iconePath =  iconeElement.getAttribute(Industry.FIELD_PATH);
-			iconePath = iconePath.substring(3);
+			iconePath = iconeElement.getAttribute(Industry.FIELD_PATH);
+			
 			pathIconList.add(iconePath);
-
-
 		}
 	}
-	
+
 	private ComponentIndustry getComponentOut(Element elementIndustry) {
 
 		String componentType;
@@ -114,7 +112,7 @@ public class IndustryBuilder {
 
 		return componentOut;
 	}
-	
+
 	private void setEntryList(Element elementIndustry, ArrayList<ComponentIndustry> entryList) {
 
 		String componentType;
@@ -158,7 +156,7 @@ public class IndustryBuilder {
 	private ComponentIndustry getComponentByType(String componentType) {
 
 		ComponentIndustry componentIndustry = null;
-		
+
 		switch (componentType) {
 		case "metal":
 			componentIndustry = new Metal();
@@ -175,19 +173,20 @@ public class IndustryBuilder {
 		default:
 			break;
 		}
-		
+
 		return componentIndustry;
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public ArrayList<Industry> getListIndustry() {
-		
+
 		return (ArrayList<Industry>) listIndustry.clone();
 	}
 
-	public Store getStore() {
-		
-		return store;
+	@SuppressWarnings("unchecked")
+	public ArrayList<Store> getStoreList() {
+
+		return (ArrayList<Store>) this.storeList.clone();
 	}
 }

@@ -1,16 +1,11 @@
 package industry;
 
 import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
-
 import selling.Sales;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 public class Store extends Observable{
 
@@ -22,7 +17,7 @@ public class Store extends Observable{
 	private int quantity;
 	private int idStore = 0;
 	private LinkedList<String> labelPathList;
-	private ArrayList<JLabel> labelIconList;
+	private ArrayList<ImageIcon> imageList;
 	private Point position;
 	private int stateIcon = 0;
 
@@ -32,9 +27,8 @@ public class Store extends Observable{
 		//this.entryList = entryList;
 		this.capacity = capacity;
 		this.labelPathList = (LinkedList<String>) labelPathList.clone();
-		this.labelIconList = new ArrayList<JLabel>();
-
-		setJLabelList();
+		this.imageList = new ArrayList<ImageIcon>();
+		setImageIconList();
 	}
 
 	public synchronized void setQuantity() {
@@ -92,20 +86,16 @@ public class Store extends Observable{
 		return this.quantity;
 	}
 
-	private void setJLabelList() {
+	
+	private void setImageIconList(){
 
-		BufferedImage classPathImage;
-		JLabel labelTMP;
+		ImageIcon imageTMP;
+
 		for(int i = 0; i < this.labelPathList.size(); i++) {
-			try {
-				classPathImage = ImageIO.read(getClass().getResourceAsStream(this.labelPathList.get(i)));
-				labelTMP = new JLabel(new ImageIcon(classPathImage));
-				labelIconList.add(labelTMP);
 
-			} catch (IOException e) {
+			imageTMP = new ImageIcon(this.labelPathList.get(i));
 
-				System.err.println("Icone introuvable !");
-			}
+			this.imageList.add(imageTMP);
 		}
 	}
 
@@ -119,19 +109,14 @@ public class Store extends Observable{
 		this.idStore = idStore;
 	}
 
-	/*
-	public ArrayList<ComponentIndustry> getEntryList() {
-		return entryList;
-	}
-	 */
-
 	public int getCapacity() {
 		return capacity;
 	}
 
 
-	public JLabel getJLabel() {
-		return labelIconList.get(this.stateIcon);
+	public ImageIcon getIconByState() {
+		
+		return imageList.get(this.stateIcon);
 	}
 
 

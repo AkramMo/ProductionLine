@@ -1,6 +1,8 @@
 package industry;
 
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public abstract class  ComponentIndustry {
@@ -10,7 +12,7 @@ public abstract class  ComponentIndustry {
 	private int desiredQuantity = 0;
 	private int quantity = 0;
 	private String typeComponent;
-	protected JLabel labelIcon = null;
+	protected ImageIcon componentIcon = null;
 
 	public ComponentIndustry(Point speed,	Point position, String type){
 
@@ -20,9 +22,9 @@ public abstract class  ComponentIndustry {
 
 	}
 
-	public JLabel getLabelIcon() {
+	public ImageIcon getComponentIcon() {
 
-		return this.labelIcon;
+		return this.componentIcon;
 	}
 
 	public void setSpeedAndPosition(Point initialPos, Point finalPos) {
@@ -46,8 +48,8 @@ public abstract class  ComponentIndustry {
 			y = y/commonDivider;
 		}
 		
-		this.speed.x = x;
-		this.speed.y = y;
+		this.speed.x = x*2;
+		this.speed.y = y*2;
 
 	}
 

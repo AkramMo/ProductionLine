@@ -12,6 +12,7 @@ public class PanneauPrincipal extends JPanel {
 	private XMLParserProductionLine XMLParser;
 	private SimulationProcess simulationProcess;
 	private Sales salesStrategy;
+	private boolean pathIsDrawn = false;
 
 	public PanneauPrincipal() {
 
@@ -30,18 +31,19 @@ public class PanneauPrincipal extends JPanel {
 
 		if(this.simulationProcess != null) {
 
+			this.removeAll();
 			this.simulationProcess.drawPath(g);
-			this.simulationProcess.drawIndustry(this);
+			this.simulationProcess.drawIndustry(g, this);
 
 			if(salesNotEmpty()){
-				
-			this.simulationProcess.updateIndustry();
+
+				this.simulationProcess.updateIndustry();
 			}
 		}
 
 	}
 
-	
+
 
 	public void updateMainPanel(XMLParserProductionLine XMLParser) {
 
@@ -50,21 +52,21 @@ public class PanneauPrincipal extends JPanel {
 			this.XMLParser = XMLParser;
 			this.simulationProcess = new SimulationProcess(this.XMLParser);
 		}else if(this.salesNotEmpty()){
-			
+
 			this.simulationProcess.updateListComponent(this.salesStrategy);
 		}
 	}
 
 	public void setSalesStrategy(Sales salesStrategy) {
-		
+
 		this.salesStrategy = salesStrategy;
 	}
 
-	
+
 	public boolean salesNotEmpty() {
-		
+
 		return this.salesStrategy.isNotEmpty();
 	}
-	
-	
+
+
 }

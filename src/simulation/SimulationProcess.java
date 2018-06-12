@@ -3,7 +3,7 @@ package simulation;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
-import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -21,14 +21,13 @@ import selling.Sales;
 
 public class SimulationProcess {
 
-	private final int TAILLE = 32;
 	private XMLParserProductionLine XMLParser;
 	private ArrayList<Industry> listIndustry;
 	private ArrayList<Industry> listIndustrySimulation;
 	private ArrayList<ComponentIndustry> listComponent = new ArrayList<ComponentIndustry>();
 	private ArrayList<PathIndustry> listPath;
 	private Sales salesStrategy;
-	private Store store;
+	private ArrayList<Store> storeList;
 
 	public SimulationProcess(XMLParserProductionLine XMLParser) {
 
@@ -36,7 +35,7 @@ public class SimulationProcess {
 		this.listIndustry = new ArrayList<Industry>();
 		this.listIndustrySimulation = new ArrayList<Industry>();
 		this.listPath = new ArrayList<PathIndustry>();
-		setIndustryList();
+		setIndustryAndStoreList();
 		setListIndustrySimulation();
 		setPathList();
 		setObserver();
@@ -44,49 +43,45 @@ public class SimulationProcess {
 
 
 
-	public void drawIndustry(JPanel pannel) {
+	public void drawIndustry(Graphics g, JPanel panel) {
 
-		JLabel labelIcon;
-		Point positionLabel;
-		pannel.removeAll();
-		
+		ImageIcon imageTMP;
+		Point positionIcon;
+
 		for(int i = 0; i < listIndustrySimulation.size(); i++) {
 
-			positionLabel = this.listIndustrySimulation.get(i).getPosition();
-			labelIcon = this.listIndustrySimulation.get(i).getLabelIcon();
-			labelIcon.setBounds(positionLabel.x,positionLabel.y, TAILLE, TAILLE);
+			positionIcon = this.listIndustrySimulation.get(i).getPosition();
+			imageTMP = this.listIndustrySimulation.get(i).getIconByState();
+			imageTMP.paintIcon(panel, g, positionIcon.x, positionIcon.y);
 
-			pannel.add(labelIcon);
 
 		}
 
-		if(this.store != null) {
-			
-			positionLabel = this.store.getPosition();
-			labelIcon = this.store.getJLabel();
-			labelIcon.setBounds(positionLabel.x, positionLabel.y, TAILLE, TAILLE);
+		if(this.storeList != null) {
 
-			pannel.add(labelIcon);
+			for(int i = 0; i < this.storeList.size(); i++) {
+				positionIcon = this.storeList.get(i).getPosition();
+				imageTMP = this.storeList.get(i).getIconByState();
+				imageTMP.paintIcon(panel,g, positionIcon.x, positionIcon.y);
+			}
 		}
 
-		drawComponent(pannel);
+		drawComponent(panel, g);
 	}
 
-	private void drawComponent(JPanel pannel) {
+	private void drawComponent(JPanel panel, Graphics g) {
 
-		JLabel labelIcon;
-		Point positionLabel;
+		ImageIcon imageTMP;
+		Point positionIcone;
 
 
 		if(!this.listComponent.isEmpty()) {
 			for(int i = 0; i < listComponent.size(); i++) {
 
 				this.listComponent.get(i).translatePosition();
-				positionLabel = this.listComponent.get(i).getPosition();
-				labelIcon = this.listComponent.get(i).getLabelIcon();
-				labelIcon.setBounds(positionLabel.x,positionLabel.y, TAILLE, TAILLE);
-
-				pannel.add(labelIcon);
+				positionIcone = this.listComponent.get(i).getPosition();
+				imageTMP = this.listComponent.get(i).getComponentIcon();
+				imageTMP.paintIcon(panel, g, positionIcone.x, positionIcone.y);
 			}
 		}
 
@@ -99,43 +94,40 @@ public class SimulationProcess {
 		int finalID;
 		Industry initialIndustry;
 		Industry finalIndustry;
-		Point positionInitial;
-		Point positionFinal;
+		Point positionInitial = null;
+		Point positionFinal = null;
 
 
 		for(int i = 0; i < this.listPath.size(); i++) {
 			initialID = this.listPath.get(i).getInitialID();
 			finalID = this.listPath.get(i).getFinalID();
 
-			if(initialID == this.store.getIdStore()) {
 
-				positionInitial = this.store.getPosition();
-				finalIndustry= getIndustryByID(finalID);
-				positionFinal = finalIndustry.getPosition();
-			}else if(finalID == this.store.getIdStore()) {
 
-				initialIndustry= getIndustryByID(initialID);
+			initialIndustry= getIndustryByID(initialID);
+			finalIndustry = getIndustryByID(finalID);
+
+			if(finalIndustry == null) {
+
+
+				for(int j = 0; j < this.storeList.size(); j++) {
+
+					if(this.storeList.get(j).getIdStore() == finalID) {
+
+						positionFinal = this.storeList.get(j).getPosition();
+					}
+				}
+
 				positionInitial = initialIndustry.getPosition();
-				positionFinal = this.store.getPosition();	
+
 			}else {
 
-				initialIndustry= getIndustryByID(initialID);
-				finalIndustry = getIndustryByID(finalID);
 				positionInitial = initialIndustry.getPosition();
 				positionFinal = finalIndustry.getPosition();
 			}
 
+			g.drawLine(positionInitial.x + 16 , positionInitial.y + 16 , positionFinal.x + 16, positionFinal.y + 16);
 
-			if(positionInitial.y < positionFinal.y && positionInitial.x > positionFinal.x) {
-
-				g.drawLine(positionInitial.x + 5 , positionInitial.y + 32 , positionFinal.x + 32, positionFinal.y);
-			}else if( positionInitial.y > positionFinal.y && positionInitial.x > positionFinal.x){
-
-				g.drawLine(positionInitial.x + 5 , positionInitial.y + 2 , positionFinal.x + 30, positionFinal.y + 30 );		
-			}else {
-				
-				g.drawLine(positionInitial.x + 32, positionInitial.y + 16, positionFinal.x, positionFinal.y + 16);
-			}
 		}
 	}
 
@@ -152,13 +144,13 @@ public class SimulationProcess {
 		return null;
 	}
 
-	private void setIndustryList() {
+	private void setIndustryAndStoreList() {
 
 		IndustryBuilder industryBuilder;
 
 		industryBuilder = new IndustryBuilder(XMLParser);
 		this.listIndustry = industryBuilder.getListIndustry();
-		this.store = industryBuilder.getStore();
+		this.storeList = industryBuilder.getStoreList();
 
 	}
 
@@ -176,18 +168,20 @@ public class SimulationProcess {
 			for(int i = 0; i < industryAttributeList.getLength(); i++) {
 
 				Element elementIndustryAttribute = (Element) industryAttributeList.item(i);
-				
+
 				typeIndustry = elementIndustryAttribute.getAttribute(Industry.FIELD_TYPE);
-				
+
 				idIndustry = Integer.parseInt(elementIndustryAttribute.getAttribute(Industry.FIELD_ID));
-				
+
 				position = new Point(Integer.parseInt(elementIndustryAttribute.getAttribute(Industry.FIELD_X)),
 						Integer.parseInt(elementIndustryAttribute.getAttribute(Industry.FIELD_Y)));
-				
-				if(Store.TYPE_USINE.equals(typeIndustry) && this.store != null) {
 
-					this.store.setPosition(position);
-					this.store.setIdStore(idIndustry);
+				if(Store.TYPE_USINE.equals(typeIndustry) && this.storeList != null) {
+
+					for(int j = 0; j < this.storeList.size(); j++) {
+						this.storeList.get(j).setPosition(position);
+						this.storeList.get(j).setIdStore(idIndustry);
+					}
 				}else {
 
 					for(int j = 0; j < this.listIndustry.size(); j++) {
@@ -197,13 +191,13 @@ public class SimulationProcess {
 							industryTMP = new Industry(this.listIndustry.get(j).getIndustryType(),
 									this.listIndustry.get(j).getEntry(),this.listIndustry.get(j).getTimeProduction(), 
 									this.listIndustry.get(j).getLabelPathList());
-							
+
 							industryTMP.setPosition(position);
-							
+
 							industryTMP.setIdIndustry(idIndustry);
-							
+
 							industryTMP.setComponentOut(getComponentByType(this.listIndustry.get(j).getComponentType()));
-							
+
 							this.listIndustrySimulation.add(industryTMP);
 						}
 					}
@@ -237,7 +231,7 @@ public class SimulationProcess {
 
 			this.XMLParser = XMLParser;
 			setListIndustrySimulation();
-			setIndustryList();
+			setIndustryAndStoreList();
 		}
 	}
 
@@ -250,9 +244,9 @@ public class SimulationProcess {
 		for(int i = 0; i < listIndustrySimulation.size(); i++) {
 
 			componentType = this.listIndustrySimulation.get(i).getComponentOutToCreate();
-			
+
 			if(componentType != null) {
-				
+
 				component = getComponentByType(componentType);
 				setComponentPositions(component,  this.listIndustrySimulation.get(i).getIdIndustry());
 				this.listComponent.add(component);
@@ -278,11 +272,14 @@ public class SimulationProcess {
 				finalPosition = this.listIndustrySimulation.get(i).getPosition();
 			}
 		}
-		if(finalID == this.store.getIdStore()){
 
-			finalPosition = this.store.getPosition();
+		for(int j =0; j < this.storeList.size(); j++) {
+
+			if(finalID == this.storeList.get(j).getIdStore()){
+
+				finalPosition = this.storeList.get(j).getPosition();
+			}
 		}
-
 
 		component.setSpeedAndPosition(initialPosition, finalPosition);
 
@@ -329,9 +326,13 @@ public class SimulationProcess {
 
 	private void setObserver() {
 
-		for(int i = 0; i < this.listIndustrySimulation.size(); i++) {
+		for(int j = 0; j < this.storeList.size(); j++) {
 
-			this.store.addObserver(this.listIndustrySimulation.get(i));
+			for(int i = 0; i < this.listIndustrySimulation.size(); i++) {
+
+
+				this.storeList.get(j).addObserver(this.listIndustrySimulation.get(i));
+			}
 		}
 	}
 
@@ -341,8 +342,6 @@ public class SimulationProcess {
 		int yComponent;
 		int xIndustry;
 		int yIndustry;
-		int xStore = this.store.getPosition().x;
-		int yStore = this.store.getPosition().y;
 
 		for(int i = 0; i < listIndustrySimulation.size(); i++) {
 
@@ -362,27 +361,46 @@ public class SimulationProcess {
 					this.listComponent.remove(j);
 
 					j--;
-				}else if(xComponent == xStore && yComponent == yStore) {
+				}else if(reachAStore(xComponent, yComponent)) {
 
-					this.store.setQuantity();
 					this.listComponent.remove(j);
 					j--;
 				}
 			}
 		}
 	}
-	
+
+	private boolean reachAStore(int x, int y) {
+
+		Point positionStore = null;
+
+		for(int i = 0; i < this.storeList.size(); i++) {
+
+			positionStore = this.storeList.get(i).getPosition();
+
+			if(positionStore.x == x && positionStore.y == y) {
+
+				this.storeList.get(i).setQuantity();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public void updateIndustry() {
 
 		for(int i = 0; i < listIndustrySimulation.size(); i++) {
 
 			this.listIndustrySimulation.get(i).updateIndustry();
 		}
-		
+
 		if(this.salesStrategy != null) {
-			
-			this.store.doASales(salesStrategy);
-			this.store.updateLabel();
+
+			for(int j = 0; j < this.storeList.size(); j++) {
+				this.storeList.get(j).doASales(salesStrategy);
+				this.storeList.get(j).updateLabel();
+			}
 		}
 	}
 }

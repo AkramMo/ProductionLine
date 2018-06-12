@@ -14,7 +14,7 @@ public class ProgrammedSales implements SellingStrategy {
 
 		counter++;
 
-		if(counter == 1000) {
+		if(counter == 600) {
 			
 			counter = 0;
 			return true;

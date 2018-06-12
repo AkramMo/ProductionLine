@@ -10,28 +10,17 @@ import javax.swing.JLabel;
 
 public class Wing extends ComponentIndustry{
 
-	private JLabel labelIcon;
-	private static final String ICONE_PATH = "/ressources/aile.png/";
+	private static final String ICONE_PATH = "src/ressources/aile.png/";
 	
 	public Wing() {
 		
 		super(new Point(0,0), new Point(0,0), "aile");
-		
-		try {
-			BufferedImage classPathImage = ImageIO.read(getClass().getResourceAsStream(ICONE_PATH));
-			
-
-			this.labelIcon = new JLabel(new ImageIcon(classPathImage));
-			
-		} catch (IOException e) {
-			
-			System.err.println("Icone introuvable !");
+		this.componentIcon = new ImageIcon(ICONE_PATH);
 		}
-	}
-	
-	
-	public JLabel getLabelIcon() {
-		
-		return this.labelIcon;
-	}
+
+		@Override
+		public ImageIcon getComponentIcon() {
+
+			return this.componentIcon;
+		}
 }

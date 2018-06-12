@@ -38,7 +38,7 @@ public class Industry implements Observer {
 	private int currentTime = 0;
 	private int idIndustry = 0;
 	private LinkedList<String> labelPathList;
-	private ArrayList<JLabel> labelIconList;
+	private ArrayList<ImageIcon> imageList;
 	private Point position;
 	private int stateIcon;
 	private Store store;
@@ -53,9 +53,9 @@ public class Industry implements Observer {
 		this.timeProduction = timeProduction;
 		this.componentOut = null;
 		this.labelPathList = (LinkedList<String>) labelPathList.clone();
-		this.labelIconList = new ArrayList<JLabel>();
+		this.imageList = new ArrayList<ImageIcon>();
 		this.stateIcon = 0;
-		setJLabelList();
+		setImageIconList();
 
 	}
 
@@ -76,25 +76,19 @@ public class Industry implements Observer {
 
 	}
 
-	private void setJLabelList() {
 
-		BufferedImage classPathImage;
-		JLabel labelTMP;
+	private void setImageIconList(){
+
+		ImageIcon imageTMP;
 
 		for(int i = 0; i < this.labelPathList.size(); i++) {
 
-			try {
-				classPathImage = ImageIO.read(getClass().getResourceAsStream(this.labelPathList.get(i)));
-				labelTMP = new JLabel(new ImageIcon(classPathImage));
-				labelIconList.add(labelTMP);
+			imageTMP = new ImageIcon(this.labelPathList.get(i));
 
-			} catch (IOException e) {
-
-				System.err.println("Icone introuvable !");
-			}
+			this.imageList.add(imageTMP);
 		}
 	}
-
+	
 	public void updateIndustry() {
 
 		if(verifyEntry()) {
@@ -160,12 +154,12 @@ public class Industry implements Observer {
 	}
 
 	public int getIdIndustry() {
-		
+
 		return idIndustry;
 	}
 
 	public void setIdIndustry(int idIndustry) {
-		
+
 		this.idIndustry= idIndustry;
 	}
 
@@ -179,9 +173,9 @@ public class Industry implements Observer {
 		this.timeProduction = timeProduction;
 	}
 
-	public  JLabel getLabelIcon() {
+	public  ImageIcon getIconByState() {
 
-		return  labelIconList.get(stateIcon);
+		return  imageList.get(stateIcon);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -200,6 +194,14 @@ public class Industry implements Observer {
 	public void setEntry(ArrayList<ComponentIndustry> entry) {
 
 		this.entryList = (ArrayList<ComponentIndustry>) entry.clone();
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<ImageIcon> getImageIconList() {
+
+		return (ArrayList<ImageIcon>) this.imageList.clone();
 	}
 
 	public String getComponentOutToCreate() {
@@ -272,8 +274,4 @@ public class Industry implements Observer {
 		}
 
 	}
-
-
-
-
 }
