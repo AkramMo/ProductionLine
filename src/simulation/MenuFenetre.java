@@ -122,6 +122,11 @@ public class MenuFenetre extends JMenuBar {
 		
 		return SalesStrategy;
 	}
+	
+	public boolean isSalesSet() {
+		
+		return this.SalesStrategy.isNotEmpty();
+	}
 
 	
 

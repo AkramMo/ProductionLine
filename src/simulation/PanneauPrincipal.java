@@ -24,6 +24,7 @@ public class PanneauPrincipal extends JPanel {
 		super.paint(g);
 
 		drawSimulation(g);
+		repaint();
 	}
 
 
@@ -57,6 +58,14 @@ public class PanneauPrincipal extends JPanel {
 		}
 	}
 
+
+
+	public void updateMainPanel() {
+
+		if(this.salesNotEmpty()) {
+			this.simulationProcess.updateListComponent(this.salesStrategy);
+		}
+	}
 	public void setSalesStrategy(Sales salesStrategy) {
 
 		this.salesStrategy = salesStrategy;
@@ -65,7 +74,7 @@ public class PanneauPrincipal extends JPanel {
 
 	public boolean salesNotEmpty() {
 
-		return this.salesStrategy.isNotEmpty();
+		return this.salesStrategy != null;
 	}
 
 

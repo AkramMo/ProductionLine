@@ -48,8 +48,8 @@ public abstract class  ComponentIndustry {
 			y = y/commonDivider;
 		}
 		
-		this.speed.x = x*2;
-		this.speed.y = y*2;
+		this.speed.x = x;
+		this.speed.y = y;
 
 	}
 

@@ -359,7 +359,6 @@ public class SimulationProcess {
 					this.listIndustrySimulation.get(i).updateEntryByType(this.listComponent.get(j).getType());
 
 					this.listComponent.remove(j);
-
 					j--;
 				}else if(reachAStore(xComponent, yComponent)) {
 

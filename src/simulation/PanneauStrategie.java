@@ -38,7 +38,6 @@ public class PanneauStrategie extends JPanel {
 				this.salesStrategy.setSales(new RandomSales());
 				
 			}else {
-				
 				this.salesStrategy.setSales(new ProgrammedSales());
 			}
 			

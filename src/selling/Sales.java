@@ -26,12 +26,6 @@ public class Sales {
 	
 	public boolean isNotEmpty() {
 		
-		if(this.strategy != null) {
-			
-			return true;
-		}else {
-			
-			return false;
-		}
+		return this.strategy != null;
 	}
 }

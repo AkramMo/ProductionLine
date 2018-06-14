@@ -14,10 +14,11 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	private static final Dimension DIMENSION = new Dimension(700, 700);
 	private PanneauPrincipal panneauPrincipal;
 	private MenuFenetre menuFenetre;
+	private boolean programmedIsRunned = false;
 	public FenetrePrincipale() {
 		this.panneauPrincipal = new PanneauPrincipal();
 		this.menuFenetre = new MenuFenetre();
-		
+
 		add(panneauPrincipal);
 		add(menuFenetre, BorderLayout.NORTH);
 		// Faire en sorte que le X de la fenêtre ferme la fenêtre
@@ -35,22 +36,25 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("Un tour")) {
-			
+
 			updateMainPanel(menuFenetre, panneauPrincipal);
 			repaint();
 		}
 	}
-	
+
 	private void updateMainPanel(MenuFenetre menuFenetre, PanneauPrincipal panneauPrincipal) {
-		
-		if(menuFenetre.getXMLParser() != null ) {
-			
+
+		if(menuFenetre.getXMLParser() != null && !programmedIsRunned ) {
+
 			panneauPrincipal.updateMainPanel(menuFenetre.getXMLParser());
-			
-			if(menuFenetre.getSalesStrategy() != null ) {
-				
+			if(menuFenetre.isSalesSet()) {
+
 				panneauPrincipal.setSalesStrategy(menuFenetre.getSalesStrategy());
+				programmedIsRunned = true;
 			}
+		}else if(programmedIsRunned){
+
+			panneauPrincipal.updateMainPanel();
 		}
 	}
 }
