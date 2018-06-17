@@ -85,6 +85,7 @@ public class MenuFenetre extends JMenuBar {
 			// Ouvrir la fenêtre de sélection
 			
 			
+			@SuppressWarnings("unused")
 			FenetreStrategie fenetreStrategy = new FenetreStrategie(this.SalesStrategy);
 			
 		

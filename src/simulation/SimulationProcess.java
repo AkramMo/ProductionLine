@@ -19,16 +19,38 @@ import industry.Industry;
 import network.PathIndustry;
 import selling.Sales;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SimulationProcess.
+ */
 public class SimulationProcess {
 
+	/** The XML parser. */
 	private XMLParserProductionLine XMLParser;
+	
+	/** The list industry. */
 	private ArrayList<Industry> listIndustry;
+	
+	/** The list industry simulation. */
 	private ArrayList<Industry> listIndustrySimulation;
+	
+	/** The list component. */
 	private ArrayList<ComponentIndustry> listComponent = new ArrayList<ComponentIndustry>();
+	
+	/** The list path. */
 	private ArrayList<PathIndustry> listPath;
+	
+	/** The sales strategy. */
 	private Sales salesStrategy;
+	
+	/** The store list. */
 	private ArrayList<Store> storeList;
 
+	/**
+	 * Instantiates a new simulation process.
+	 *
+	 * @param XMLParser the XML parser
+	 */
 	public SimulationProcess(XMLParserProductionLine XMLParser) {
 
 		this.XMLParser = XMLParser;
@@ -43,6 +65,12 @@ public class SimulationProcess {
 
 
 
+	/**
+	 * Draw industry.
+	 *
+	 * @param g the g
+	 * @param panel the panel
+	 */
 	public void drawIndustry(Graphics g, JPanel panel) {
 
 		ImageIcon imageTMP;
@@ -69,6 +97,12 @@ public class SimulationProcess {
 		drawComponent(panel, g);
 	}
 
+	/**
+	 * Draw component.
+	 *
+	 * @param panel the panel
+	 * @param g the g
+	 */
 	private void drawComponent(JPanel panel, Graphics g) {
 
 		ImageIcon imageTMP;
@@ -85,9 +119,14 @@ public class SimulationProcess {
 			}
 		}
 
-		updateComponent();
+		reachAnIndustry();
 	}
 
+	/**
+	 * Draw path.
+	 *
+	 * @param g the g
+	 */
 	public void drawPath(Graphics g) {
 
 		int initialID;
@@ -131,6 +170,12 @@ public class SimulationProcess {
 		}
 	}
 
+	/**
+	 * Gets the industry by ID.
+	 *
+	 * @param industryID the industry ID
+	 * @return the industry by ID
+	 */
 	private Industry getIndustryByID(int industryID) {
 
 		for(int i = 0; i < this.listIndustrySimulation.size(); i++) {
@@ -144,6 +189,9 @@ public class SimulationProcess {
 		return null;
 	}
 
+	/**
+	 * Sets the industry and store list.
+	 */
 	private void setIndustryAndStoreList() {
 
 		IndustryBuilder industryBuilder;
@@ -154,6 +202,9 @@ public class SimulationProcess {
 
 	}
 
+	/**
+	 * Sets the list industry simulation.
+	 */
 	private void setListIndustrySimulation() {
 
 		String typeIndustry;
@@ -190,7 +241,7 @@ public class SimulationProcess {
 
 							industryTMP = new Industry(this.listIndustry.get(j).getIndustryType(),
 									this.listIndustry.get(j).getEntry(),this.listIndustry.get(j).getTimeProduction(), 
-									this.listIndustry.get(j).getLabelPathList());
+									this.listIndustry.get(j).getPathList());
 
 							industryTMP.setPosition(position);
 
@@ -206,6 +257,9 @@ public class SimulationProcess {
 		}
 	}
 
+	/**
+	 * Sets the path list.
+	 */
 	private void setPathList() {
 
 		int initialID;
@@ -225,6 +279,11 @@ public class SimulationProcess {
 		}
 	}	
 
+	/**
+	 * Sets the XML parser.
+	 *
+	 * @param XMLParser the new XML parser
+	 */
 	public void setXMLParser(XMLParserProductionLine XMLParser) {
 
 		if(this.XMLParser != XMLParser) {
@@ -235,6 +294,11 @@ public class SimulationProcess {
 		}
 	}
 
+	/**
+	 * Update list component.
+	 *
+	 * @param salesStrategy the sales strategy
+	 */
 	public void updateListComponent(Sales salesStrategy) {
 
 		String componentType;
@@ -254,6 +318,12 @@ public class SimulationProcess {
 		}
 	}
 
+	/**
+	 * Sets the component positions.
+	 *
+	 * @param component the component
+	 * @param initialID the initial ID
+	 */
 	private void setComponentPositions(ComponentIndustry component, int initialID) {
 
 		int finalID = getFinalIDIndustry(initialID);
@@ -285,6 +355,12 @@ public class SimulationProcess {
 
 	}
 
+	/**
+	 * Gets the final ID industry.
+	 *
+	 * @param initialID the initial ID
+	 * @return the final ID industry
+	 */
 	private int getFinalIDIndustry(int initialID) {
 
 		int finalID = -1;
@@ -300,6 +376,12 @@ public class SimulationProcess {
 		return finalID;
 	}
 
+	/**
+	 * Gets the component by type.
+	 *
+	 * @param type the type
+	 * @return the component by type
+	 */
 	private ComponentIndustry getComponentByType(String type) {
 
 		ComponentIndustry component = null;
@@ -324,6 +406,9 @@ public class SimulationProcess {
 		return component;
 	}
 
+	/**
+	 * Sets the observer.
+	 */
 	private void setObserver() {
 
 		for(int j = 0; j < this.storeList.size(); j++) {
@@ -336,7 +421,10 @@ public class SimulationProcess {
 		}
 	}
 
-	private void updateComponent() {
+	/**
+	 * Reach an industry.
+	 */
+	private void reachAnIndustry() {
 
 		int xComponent;
 		int yComponent;
@@ -369,6 +457,13 @@ public class SimulationProcess {
 		}
 	}
 
+	/**
+	 * Reach A store.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	private boolean reachAStore(int x, int y) {
 
 		Point positionStore = null;
@@ -387,6 +482,9 @@ public class SimulationProcess {
 		return false;
 	}
 
+	/**
+	 * Update industry.
+	 */
 	public void updateIndustry() {
 
 		for(int i = 0; i < listIndustrySimulation.size(); i++) {
@@ -398,7 +496,7 @@ public class SimulationProcess {
 
 			for(int j = 0; j < this.storeList.size(); j++) {
 				this.storeList.get(j).doASales(salesStrategy);
-				this.storeList.get(j).updateLabel();
+				this.storeList.get(j).updateIcon();
 			}
 		}
 	}

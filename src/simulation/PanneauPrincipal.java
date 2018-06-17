@@ -12,7 +12,6 @@ public class PanneauPrincipal extends JPanel {
 	private XMLParserProductionLine XMLParser;
 	private SimulationProcess simulationProcess;
 	private Sales salesStrategy;
-	private boolean pathIsDrawn = false;
 
 	public PanneauPrincipal() {
 

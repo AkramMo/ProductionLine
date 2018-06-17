@@ -14,7 +14,8 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 	private static final Dimension DIMENSION = new Dimension(700, 700);
 	private PanneauPrincipal panneauPrincipal;
 	private MenuFenetre menuFenetre;
-	private boolean programmedIsRunned = false;
+	private boolean programState = false;
+	
 	public FenetrePrincipale() {
 		this.panneauPrincipal = new PanneauPrincipal();
 		this.menuFenetre = new MenuFenetre();
@@ -44,15 +45,15 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 
 	private void updateMainPanel(MenuFenetre menuFenetre, PanneauPrincipal panneauPrincipal) {
 
-		if(menuFenetre.getXMLParser() != null && !programmedIsRunned ) {
+		if(menuFenetre.getXMLParser() != null && !programState ) {
 
 			panneauPrincipal.updateMainPanel(menuFenetre.getXMLParser());
 			if(menuFenetre.isSalesSet()) {
 
 				panneauPrincipal.setSalesStrategy(menuFenetre.getSalesStrategy());
-				programmedIsRunned = true;
+				programState = true;
 			}
-		}else if(programmedIsRunned){
+		}else if(programState){
 
 			panneauPrincipal.updateMainPanel();
 		}
