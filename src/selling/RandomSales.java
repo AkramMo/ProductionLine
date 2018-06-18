@@ -5,6 +5,7 @@ import java.util.Random;
 // TODO: Auto-generated Javadoc
 /**
  * The Class RandomSales.
+ * Do sales with a probality of 1/1150 
  */
 public class RandomSales implements SellingStrategy {
 	
@@ -27,6 +28,8 @@ public class RandomSales implements SellingStrategy {
 		int x = 12;
 		
 		Random rdm = new Random();
+		
+		// return true if rdm.nextInt equals 12
 		return x == rdm.nextInt(1150);
 	}
 }

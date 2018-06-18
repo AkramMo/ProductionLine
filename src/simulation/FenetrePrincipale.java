@@ -7,15 +7,33 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FenetrePrincipale.
+ */
 public class FenetrePrincipale extends JFrame implements PropertyChangeListener {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant TITRE_FENETRE. */
 	private static final String TITRE_FENETRE = "Laboratoire 1 : LOG121 - Simulation";
+	
+	/** The Constant DIMENSION. */
 	private static final Dimension DIMENSION = new Dimension(700, 700);
+	
+	/** The panneau principal. */
 	private PanneauPrincipal panneauPrincipal;
+	
+	/** The menu fenetre. */
 	private MenuFenetre menuFenetre;
+	
+	/** The program state. */
 	private boolean programState = false;
 	
+	/**
+	 * Instantiates a new fenetre principale.
+	 */
 	public FenetrePrincipale() {
 		this.panneauPrincipal = new PanneauPrincipal();
 		this.menuFenetre = new MenuFenetre();
@@ -34,6 +52,9 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 		setResizable(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals("Un tour")) {
@@ -43,6 +64,12 @@ public class FenetrePrincipale extends JFrame implements PropertyChangeListener 
 		}
 	}
 
+	/**
+	 * Update main panel.
+	 *
+	 * @param menuFenetre the menu fenetre
+	 * @param panneauPrincipal the panneau principal
+	 */
 	private void updateMainPanel(MenuFenetre menuFenetre, PanneauPrincipal panneauPrincipal) {
 
 		if(menuFenetre.getXMLParser() != null && !programState ) {

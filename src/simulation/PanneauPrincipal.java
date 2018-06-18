@@ -5,19 +5,35 @@ import javax.swing.JPanel;
 import configuration.XMLParserProductionLine;
 import selling.Sales;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PanneauPrincipal.
+ */
 public class PanneauPrincipal extends JPanel {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The XML parser. */
 	private XMLParserProductionLine XMLParser;
+	
+	/** The simulation process. */
 	private SimulationProcess simulationProcess;
+	
+	/** The sales strategy. */
 	private Sales salesStrategy;
 
+	/**
+	 * Instantiates a new panneau principal.
+	 */
 	public PanneauPrincipal() {
 
 		this.simulationProcess = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -27,6 +43,11 @@ public class PanneauPrincipal extends JPanel {
 	}
 
 
+	/**
+	 * Draw simulation.
+	 *
+	 * @param g the g
+	 */
 	private void drawSimulation(Graphics g) {
 
 		if(this.simulationProcess != null) {
@@ -45,6 +66,11 @@ public class PanneauPrincipal extends JPanel {
 
 
 
+	/**
+	 * Update main panel.
+	 *
+	 * @param XMLParser the XML parser
+	 */
 	public void updateMainPanel(XMLParserProductionLine XMLParser) {
 
 		if(this.XMLParser != XMLParser) {
@@ -59,18 +85,32 @@ public class PanneauPrincipal extends JPanel {
 
 
 
+	/**
+	 * Update main panel.
+	 */
 	public void updateMainPanel() {
 
 		if(this.salesNotEmpty()) {
 			this.simulationProcess.updateListComponent(this.salesStrategy);
 		}
 	}
+	
+	/**
+	 * Sets the sales strategy.
+	 *
+	 * @param salesStrategy the new sales strategy
+	 */
 	public void setSalesStrategy(Sales salesStrategy) {
 
 		this.salesStrategy = salesStrategy;
 	}
 
 
+	/**
+	 * Sales not empty.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean salesNotEmpty() {
 
 		return this.salesStrategy != null;

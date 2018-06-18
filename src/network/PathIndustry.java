@@ -3,6 +3,7 @@ package network;
 // TODO: Auto-generated Javadoc
 /**
  * The Class PathIndustry.
+ * Represent a path between two building
  */
 public class PathIndustry{
 

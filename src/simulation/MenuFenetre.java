@@ -14,19 +14,45 @@ import javax.swing.filechooser.FileSystemView;
 import configuration.XMLParserProductionLine;
 import selling.Sales;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MenuFenetre.
+ */
 public class MenuFenetre extends JMenuBar {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant MENU_FICHIER_TITRE. */
 	private static final String MENU_FICHIER_TITRE = "Fichier";
+	
+	/** The Constant MENU_FICHIER_CHARGER. */
 	private static final String MENU_FICHIER_CHARGER = "Charger";
+	
+	/** The Constant MENU_FICHIER_QUITTER. */
 	private static final String MENU_FICHIER_QUITTER = "Quitter";
+	
+	/** The Constant MENU_SIMULATION_TITRE. */
 	private static final String MENU_SIMULATION_TITRE = "Simulation";
+	
+	/** The Constant MENU_SIMULATION_CHOISIR. */
 	private static final String MENU_SIMULATION_CHOISIR = "Choisir";
+	
+	/** The Constant MENU_AIDE_TITRE. */
 	private static final String MENU_AIDE_TITRE = "Aide";
+	
+	/** The Constant MENU_AIDE_PROPOS. */
 	private static final String MENU_AIDE_PROPOS = "À propos de...";
+	
+	/** The XML parser. */
 	private XMLParserProductionLine XMLParser;
+	
+	/** The Sales strategy. */
 	private Sales SalesStrategy = new Sales();
 
+	/**
+	 * Instantiates a new menu fenetre.
+	 */
 	public MenuFenetre() {
 		ajouterMenuFichier();
 		ajouterMenuSimulation();
@@ -34,7 +60,7 @@ public class MenuFenetre extends JMenuBar {
 	}
 
 	/**
-	 * Créer le menu de Fichier
+	 * Créer le menu de Fichier.
 	 */
 	private void ajouterMenuFichier() {
 		JMenu menuFichier = new JMenu(MENU_FICHIER_TITRE);
@@ -72,7 +98,7 @@ public class MenuFenetre extends JMenuBar {
 	}
 
 	/**
-	 * Créer le menu de Simulation
+	 * Créer le menu de Simulation.
 	 */
 	private void ajouterMenuSimulation() {
 		
@@ -96,7 +122,7 @@ public class MenuFenetre extends JMenuBar {
 
 
 	/**
-	 * Créer le menu Aide
+	 * Créer le menu Aide.
 	 */
 	private void ajouterMenuAide() {
 		JMenu menuAide = new JMenu(MENU_AIDE_TITRE);
@@ -114,16 +140,31 @@ public class MenuFenetre extends JMenuBar {
 		add(menuAide);
 	}
 	
+	/**
+	 * Gets the XML parser.
+	 *
+	 * @return the XML parser
+	 */
 	public XMLParserProductionLine getXMLParser() {
 		
 		return this.XMLParser;
 	}
 	
+	/**
+	 * Gets the sales strategy.
+	 *
+	 * @return the sales strategy
+	 */
 	public Sales getSalesStrategy() {
 		
 		return SalesStrategy;
 	}
 	
+	/**
+	 * Checks if is sales set.
+	 *
+	 * @return true, if is sales set
+	 */
 	public boolean isSalesSet() {
 		
 		return this.SalesStrategy.isNotEmpty();

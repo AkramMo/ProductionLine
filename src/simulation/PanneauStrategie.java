@@ -15,11 +15,23 @@ import selling.ProgrammedSales;
 import selling.RandomSales;
 import selling.Sales;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PanneauStrategie.
+ */
 public class PanneauStrategie extends JPanel {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The sales strategy. */
 	private Sales salesStrategy;
 
+	/**
+	 * Instantiates a new panneau strategie.
+	 *
+	 * @param salesStrategy the sales strategy
+	 */
 	public PanneauStrategie(Sales salesStrategy) {
 
 		ButtonGroup groupeBoutons = new ButtonGroup();
@@ -63,8 +75,9 @@ public class PanneauStrategie extends JPanel {
 
 	/**
 	 * Retourne le bouton sélectionné dans un groupe de boutons.
-	 * @param groupeBoutons
-	 * @return
+	 *
+	 * @param groupeBoutons the groupe boutons
+	 * @return the selected button text
 	 */
 	public String getSelectedButtonText(ButtonGroup groupeBoutons) {
 		for (Enumeration<AbstractButton> boutons = groupeBoutons.getElements(); boutons.hasMoreElements();) {
@@ -77,6 +90,11 @@ public class PanneauStrategie extends JPanel {
 		return null;
 	}
 	
+	/**
+	 * Gets the sales strategy.
+	 *
+	 * @return the sales strategy
+	 */
 	public Sales getSalesStrategy() {
 		
 		return this.salesStrategy;

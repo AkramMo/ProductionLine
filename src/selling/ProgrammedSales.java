@@ -3,6 +3,7 @@ package selling;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ProgrammedSales.
+ * Class that do sales steadily
  */
 public class ProgrammedSales implements SellingStrategy {
 
@@ -25,6 +26,7 @@ public class ProgrammedSales implements SellingStrategy {
 
 		counter++;
 
+		//Return true after 600 calls
 		if(counter == 600) {
 			
 			counter = 0;
