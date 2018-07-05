@@ -24,7 +24,7 @@ public class RandomSales implements SellingStrategy {
 	@Override
 	public boolean saleStrategy() {
 		
-		// Number not significant
+		// Number not significant.
 		int x = 12;
 		
 		Random rdm = new Random();
